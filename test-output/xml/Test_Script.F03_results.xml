@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TestNGTest-d2b65c14-8bb7-47da-a2b7-0e185602b98c"
+           tests="7"
+           failures="1"
+           errors="0"
+           skipped="0"
+           time="55.223">
+    <properties></properties>
+
+            <testcase
+                name="TC02_IncorrectLocation"
+                time="7.922"
+                classname="Test_Script.F03">
+
+            <failure type="java.lang.NullPointerException" message="Cannot invoke &quot;org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)&quot; because &quot;driver&quot; is null">
+                <![CDATA[java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.findElement(org.openqa.selenium.By)" because "driver" is null
+                org.openqa.selenium.support.ui.ExpectedConditions$7.apply(ExpectedConditions.java:194)org.openqa.selenium.support.ui.ExpectedConditions$7.apply(ExpectedConditions.java:190)org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:203)Test_Script.F03.TC02_IncorrectLocation(F03.java:28)java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)java.base/java.lang.reflect.Method.invoke(Method.java:580)org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:141)org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:686)org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:230)org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:992)org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:203)org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:154)org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:134)java.base/java.util.ArrayList.forEach(ArrayList.java:1597)org.testng.TestRunner.privateRun(TestRunner.java:739)org.testng.TestRunner.run(TestRunner.java:614)org.testng.SuiteRunner.runTest(SuiteRunner.java:421)org.testng.SuiteRunner.runSequentially(SuiteRunner.java:413)org.testng.SuiteRunner.privateRun(SuiteRunner.java:373)org.testng.SuiteRunner.run(SuiteRunner.java:312)org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)org.testng.TestNG.runSuitesSequentially(TestNG.java:1274)org.testng.TestNG.runSuitesLocally(TestNG.java:1208)org.testng.TestNG.runSuites(TestNG.java:1112)org.testng.TestNG.run(TestNG.java:1079)com.microsoft.java.test.runner.testng.TestNGRunner.run(TestNGRunner.java:45)com.microsoft.java.test.runner.testng.TestNGLauncher.execute(TestNGLauncher.java:32)com.microsoft.java.test.runner.Launcher.main(Launcher.java:57)
+]]>
+            </failure>
+    </testcase>
+
+
+            <testcase
+                name="TC05_AdultsNumBlank"
+                time="7.971"
+                classname="Test_Script.F03">
+            </testcase>
+            <testcase
+                name="TC01_Correct"
+                time="8.251"
+                classname="Test_Script.F03">
+            </testcase>
+            <testcase
+                name="TC07_ChildNumBlank"
+                time="8.081"
+                classname="Test_Script.F03">
+            </testcase>
+            <testcase
+                name="TC03_LocationBlank"
+                time="6.867"
+                classname="Test_Script.F03">
+            </testcase>
+            <testcase
+                name="TC04_AdultsNumBelow"
+                time="8.136"
+                classname="Test_Script.F03">
+            </testcase>
+            <testcase
+                name="TC06_ChildNumBelow"
+                time="7.995"
+                classname="Test_Script.F03">
+            </testcase>
+</testsuite>

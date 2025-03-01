@@ -13,46 +13,46 @@ public class F04 extends BaseTest{
     // TC01: Nhập chính xác trường thông tin
     @Test
     public void TC01_ValidInput() throws  InterruptedException {
-        perform_testCar("Tokyo", "Tokyo", "03:00", "03:00");
+        perform_testCar("Tokyo", "Tokyo", "03:00", "03:00", "1", "0");
     }
 
     // TC02: Nhập sai địa điểm đón (tham số location lại trả về kết quả trước đó khi nhập sai tên)
     @Test
     public void TC02_IncorrectLocation1() throws  InterruptedException {
-        perform_testCar("GitGud", "Tokyo", "03:00", "03:00");
+        perform_testCar("GitGud", "Tokyo", "03:00", "03:00", "1", "0");
     }
 
     // TC03: Bỏ trống địa điểm đón (tham số location lại trả về kết quả trước đó khi không nhập địa điểm)
     @Test
     public void TC03_IncorrectLocation2() throws  InterruptedException {
-        perform_testCar("", "Tokyo", "03:00", "03:00");
+        perform_testCar("", "Tokyo", "03:00", "03:00", "1", "0");
     }
 
     // TC04: Nhập sai địa điểm trả khách (tham số location lại trả về kết quả trước đó khi nhập sai tên)
     @Test
     public void TC04_IncorrectLocation3() throws  InterruptedException {
-        perform_testCar("Tokyo", "GitGud", "03:00", "03:00");
+        perform_testCar("Tokyo", "GitGud", "03:00", "03:00", "1", "0");
     }
 
     // TC05: Bỏ trống địa điểm trả khách (tham số location lại trả về kết quả trước đó khi không nhập địa điểm)
     @Test
     public void TC05_IncorrectLocation4() throws  InterruptedException {
-        perform_testCar("Tokyo", "", "03:00", "03:00");
+        perform_testCar("Tokyo", "", "03:00", "03:00", "1", "0");
     }
 
     // TC06: Bỏ trống cả 2 địa điểm (tham số location lại trả về kết quả trước đó khi không nhập địa điểm)
     @Test
     public void TC06_IncorrectLocation5() throws  InterruptedException {
-        perform_testCar("", "", "03:00", "03:00");
+        perform_testCar("", "", "03:00", "03:00","1", "0");
     }
 
     // TC07: Bỏ trống thời gian đón
     @Test
     public void TC07_PickUpTimeBlank() throws  InterruptedException {
-        perform_testCar("Tokyo", "Tokyo", "", "03:00");
+        perform_testCar("Tokyo", "Tokyo", "", "03:00", "1", "0");
     }
 
-    public void perform_testCar(String locationBegin, String locationEnd, String pick_upTime, String drop_offTime) throws InterruptedException {
+    public void perform_testCar(String locationBegin, String locationEnd, String pick_upTime, String drop_offTime, String adults, String childs) throws InterruptedException {
 
         // Chọn Cars
         WebElement tours = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/ul/li[4]/button"));
@@ -136,8 +136,16 @@ public class F04 extends BaseTest{
         // Chọn số lượng khách
         WebElement guestBox = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[4]/form/div/div[5]/div/div/div/a"));
         guestBox.click();
-        WebElement adultsAdd = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[4]/form/div/div[5]/div/div/div/div/div[1]/div/div/div[2]"));
-        adultsAdd.click();
+        // Khách người lón
+        WebElement adultsNum = driver.findElement(By.xpath("//*[@id=\"cars_adults\"]"));
+        adultsNum.clear();
+        delay(500);
+        adultsNum.sendKeys(adults);
+        // Khách trẻ em
+        WebElement childsNum = driver.findElement(By.xpath("//*[@id=\"cars_child\"]"));
+        childsNum.clear();
+        delay(500);
+        childsNum.sendKeys(childs);
 
 
         // Nhấn tìm kiếm

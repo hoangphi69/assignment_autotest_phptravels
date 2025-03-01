@@ -17,14 +17,14 @@ public class F03 extends BaseTest{
     // TC01: nhập đúng trường thông tin
     @Test
     public void TC01_Correct() throws InterruptedException {
-        perform_testTours("Tokyo");
+        perform_testTours("Tokyo", "4", "0");
         
     }
 
     // TC02: Nhập sai địa điểm (tham số location lại trả về kết quả trước đó khi nhập sai tên)
     @Test
     public void TC02_IncorrectLocation() throws InterruptedException {
-        perform_testTours("GitGud");
+        perform_testTours("GitGud", "2", "5");
         WebElement noResult = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/span/span/span[2]/ul/li")));
         String noResultMessage = noResult.getText();
         System.out.println("Thông báo lỗi TC02:" + noResultMessage);
@@ -33,12 +33,37 @@ public class F03 extends BaseTest{
     // TC03: Không nhập địa điểm (tham số location lại trả về kết quả trước đó khi không nhập địa điểm)
     @Test
     public void TC03_LocationBlank() throws InterruptedException {
-        perform_testTours("");
+        perform_testTours("", "1","4");
     }
 
-    
+    // TC04: Nhâp số lượng khách người lớn là số âm
+    @Test
+    public void TC04_AdultsNumBelow() throws InterruptedException {
+        perform_testTours("Tokyo", "-5", "0");
+        
+    }
 
-    public void perform_testTours(String location) throws InterruptedException {
+    // TC05: Bỏ trống lượng khách người lớn 
+    @Test
+    public void TC05_AdultsNumBlank() throws InterruptedException {
+        perform_testTours("Tokyo", "", "0");
+        
+    }
+    
+    // TC06: Nhâp số lượng khách trẻ em là số âm
+    @Test
+    public void TC06_ChildNumBelow() throws InterruptedException {
+        perform_testTours("Tokyo", "1", "-5");
+        
+    }
+
+    // TC07: Bỏ trống lượng khách trẻ em
+    @Test
+    public void TC07_ChildNumBlank() throws InterruptedException {
+        perform_testTours("Tokyo", "5", "");
+        
+    }
+    public void perform_testTours(String location, String adults, String childs) throws InterruptedException {
 
         // Chọn Tours
         WebElement tours = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/ul/li[3]/button"));
@@ -67,8 +92,16 @@ public class F03 extends BaseTest{
         // Chọn số lượng khách
         WebElement guestBox = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[3]/form/div/div[3]/div/div/div/a"));
         guestBox.click();
-        WebElement adultsAdd = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[3]/form/div/div[3]/div/div/div/div/div[1]/div/div/div[2]"));
-        adultsAdd.click();
+        // Khách người lón
+        WebElement adultsNum = driver.findElement(By.xpath("//*[@id=\"tours_adults\"]"));
+        adultsNum.clear();
+        delay(500);
+        adultsNum.sendKeys(adults);
+        // Khách trẻ em
+        WebElement childsNum = driver.findElement(By.xpath("//*[@id=\"tours_child\"]"));
+        childsNum.clear();
+        delay(500);
+        childsNum.sendKeys(childs);
 
         // // Chọn thời gian đi
         // WebElement departDateDropDown = driver.findElement(By.xpath("//*[@id=\"date\"]"));
