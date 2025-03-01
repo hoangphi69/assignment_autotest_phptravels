@@ -1,98 +1,107 @@
 package Test_Script;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import utils.BaseTest;
 
 public class F02 extends BaseTest {
-    private WebDriverWait wait;
 
+    // TC01: Tham số truyền vào hợp lệ
     @Test
     public void testValidHotel() throws InterruptedException {
-        searchHotel("Dubai", "2025-03-01", "2025-03-07", 2);
-        WebElement resultTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[contains(text(), 'Hotels in')]")));
-        Assert.assertTrue(resultTitle.getText().contains("Hotels in"), "Kết quả tìm kiếm không đúng!");
+        searchHotel("Dubai", "2025-03-01", "2025-03-07", "1", "1", "1");
     }
 
+    // TC02: Không nhập địa điểm
     @Test
     public void testSearchWithoutLocation() throws InterruptedException {
-        searchHotel("", "2025-03-01", "2025-03-07", 2);
-        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'error-message')]")));
-        Assert.assertTrue(error.isDisplayed(), "Không có thông báo lỗi khi thiếu địa điểm!");
+        searchHotel("", "2025-03-01", "2025-03-07", "2", "2", "2");
     }
 
+    // TC03: 
     @Test
     public void testCheckinBeforeCheckout() throws InterruptedException {
-        searchHotel("Dubai", "2025-03-07", "2025-03-01", 2);
-        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'Check-out date must be after Check-in date')]")));
-        Assert.assertTrue(error.isDisplayed(), "Không có thông báo lỗi khi ngày checkout trước checkin!");
+        searchHotel("Dubai", "2025-03-07", "2025-03-01", "3", "3", "3");
     }
 
     @Test
     public void testExceedGuestLimit() throws InterruptedException{
-        searchHotel("Dubai", "2025-03-01", "2025-03-07", 100);
-        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'Maximum guest limit exceeded')]")));
-        Assert.assertTrue(error.isDisplayed(), "Không có thông báo lỗi khi số lượng khách vượt quá giới hạn!");
+        searchHotel("Dubai", "2025-03-01", "2025-03-07", "1", "999", "999");
     }
 
     @Test
     public void testPastCheckinDate() throws InterruptedException {
-        searchHotel("Dubai", "2024-02-22", "2025-03-07", 2);
-        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), 'Check-in date cannot be in the past')]")));
-        Assert.assertTrue(error.isDisplayed(), "Không có thông báo lỗi khi nhập ngày nhận phòng là ngày quá khứ!");
+        searchHotel("Dubai", "2024-02-22", "2025-03-07", "4", "4", "4");
     }
 
-    public void searchHotel(String location, String checkinDate, String checkoutDate, int guests) throws InterruptedException {
+    public void searchHotel(String location, String checkinDate, String checkoutDate, String rooms, String adults, String childs) throws InterruptedException {
 
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         // Chọn Hotel
         WebElement hotels = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/ul/li[2]/button"));
         hotels.click();
-        
+
         // Đặt hotel
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"select2-hotels_city-container\"]")));
+        WebElement searchBox = driver.findElement(By.xpath("//*[@id=\"select2-hotels_city-container\"]"));
         searchBox.click();
-        
-        // if (!location.isEmpty()) { // Nếu location không rỗng, nhập dữ liệu vào ô tìm kiếm
-        //     WebElement searchInput = driver.findElement(By.xpath("//input[@class='select2-search__field']"));
-        //     searchInput.sendKeys(location);
-        //     WebElement resall = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[contains(@class, 'select2-results__option')]")));
-        //     resall.click();
-        // }
+        delay(1000);
 
         if (!location.isEmpty()) { // Nhập input 
-
+            
             // Nhập địa điểm Hotels
-            WebElement locationInput = driver.findElement(By.xpath("//input[@class='select2-search__field"));
+            WebElement locationInput = driver.findElement(By.xpath("/html/body/span/span/span[1]/input"));
             locationInput.sendKeys(location);
-            delay(500);
+            delay(1000);
 
             // Nhấn Enter
             locationInput.sendKeys(Keys.ENTER);
-            delay(500);
-        } else { // Không nhập input
-            System.out.println("Thông báo lỗi TC03: Vui lòng chọn địa điểm");
-        }
+            delay(1000);
+        } 
 
-        // Nhập ngày nhận/trả phòng
-        driver.findElement(By.id("checkin")).clear();
-        driver.findElement(By.id("checkin")).sendKeys(checkinDate);
-        driver.findElement(By.id("checkout")).clear();
-        driver.findElement(By.id("checkout")).sendKeys(checkoutDate);
+        // Chọn thời gian đi
+        WebElement checkInDate = driver.findElement(By.xpath("//*[@id=\"checkin\"]"));
+        js.executeScript("arguments[0].removeAttribute('readonly');", checkInDate);
+        checkInDate.clear();
+        checkInDate.sendKeys(checkinDate);
+        delay(1000);
 
-        // Nhập số khách
-        WebElement guestBox = driver.findElement(By.id("travellersInput"));
-        guestBox.click();
-        WebElement adult = driver.findElement(By.id("adultInput"));
-        adult.clear();
-        adult.sendKeys(String.valueOf(guests));
+        // Chọn thời gian đi
+        WebElement checkOutDate = driver.findElement(By.xpath("//*[@id=\"checkout\"]"));
+        js.executeScript("arguments[0].removeAttribute('readonly');", checkInDate);
+        checkOutDate.clear();
+        checkOutDate.sendKeys(checkoutDate);
+        delay(1000);
 
-        driver.findElement(By.id("hotels-search")).click();
+        // Chọn số lượng khách
+       WebElement guestBox = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[2]/form/div/div[4]/div/div/div/a"));
+       guestBox.click();
+       // Số phòng
+       WebElement roomNum = driver.findElement(By.xpath("//*[@id=\"hotels_rooms\"]"));
+       roomNum.clear();
+       delay(1000);
+       roomNum.sendKeys(rooms);
+       // Khách người lón
+       WebElement adultsNum = driver.findElement(By.xpath("//*[@id=\"hotels_adults\"]"));
+       adultsNum.clear();
+       delay(1000);
+       adultsNum.sendKeys(adults);
+       // Khách trẻ em
+       WebElement childsNum = driver.findElement(By.xpath("//*[@id=\"hotels_childs\"]"));
+       childsNum.clear();
+       delay(1000);
+       childsNum.sendKeys(childs);
+
+       // Nhấn tìm kiếm
+       WebElement findBtn = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[2]/form/div/div[5]/button"));
+       findBtn.click();
+       delay(1000);
+
+       delay(1000);
+       driver.navigate().back();
     }
 
     

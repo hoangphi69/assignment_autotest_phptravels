@@ -18,7 +18,6 @@ public class F03 extends BaseTest{
     @Test
     public void TC01_Correct() throws InterruptedException {
         perform_testTours("Tokyo", "4", "0");
-        
     }
 
     // TC02: Nhập sai địa điểm (tham số location lại trả về kết quả trước đó khi nhập sai tên)
@@ -59,8 +58,8 @@ public class F03 extends BaseTest{
 
     // TC07: Bỏ trống lượng khách trẻ em
     @Test
-    public void TC07_ChildNumBlank() throws InterruptedException {
-        perform_testTours("Tokyo", "5", "");
+    public void TC07_ChildsNumBlank() throws InterruptedException {
+        perform_testTours("Tokyo", "", "0");
         
     }
     public void perform_testTours(String location, String adults, String childs) throws InterruptedException {
@@ -102,14 +101,6 @@ public class F03 extends BaseTest{
         childsNum.clear();
         delay(500);
         childsNum.sendKeys(childs);
-
-        // // Chọn thời gian đi
-        // WebElement departDateDropDown = driver.findElement(By.xpath("//*[@id=\"date\"]"));
-        // departDateDropDown.click();
-        // // >>>ERROR<<<
-        // WebElement departDateInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[8]")));
-        // WebElement departDateSelect = departDateInput.findElement(By.xpath("/html/body/div[8]/div[1]/table/tbody/tr[3]/td[4]"));
-        // departDateSelect.click();
 
         // Nhấn tìm kiếm
         WebElement findBtn = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[3]/form/div/div[4]/button"));

@@ -49,7 +49,7 @@ public class F04 extends BaseTest{
     // TC07: Bỏ trống thời gian đón
     @Test
     public void TC07_PickUpTimeBlank() throws  InterruptedException {
-        perform_testCar("Tokyo", "Tokyo", "", "03:00", "1", "0");
+        perform_testCar("Tokyo", "Tokyo", "", "03:00", "4", "1");
     }
 
     public void perform_testCar(String locationBegin, String locationEnd, String pick_upTime, String drop_offTime, String adults, String childs) throws InterruptedException {

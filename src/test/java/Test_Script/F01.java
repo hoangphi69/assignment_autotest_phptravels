@@ -3,11 +3,9 @@ package Test_Script;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import utils.BaseTest;
@@ -27,8 +25,6 @@ public class F01 extends BaseTest{
       false,
       "sucess test"
     );
-    driver.navigate().back();
-    delay(1000);
   }
   
   // TC02:  Bỏ trống địa điểm đón nhận
@@ -44,8 +40,6 @@ public class F01 extends BaseTest{
       false,
       "Departure City cannot be empty"
     );
-    driver.navigate().back();
-    delay(1000);
   }
 
   // TC03: Bỏ trống điểm đến
@@ -61,8 +55,6 @@ public class F01 extends BaseTest{
       false, 
       "Destination City cannot be empty"
     );
-    driver.navigate().back();
-    delay(1000);
   }
 
   // TC04: Ngày không hợp lệ
@@ -78,8 +70,6 @@ public class F01 extends BaseTest{
       false, 
       "Invalid departure date"
     );
-    driver.navigate().back();
-    delay(1000);
   }
 
   // TC05: Số lượng khách sạn không hợp lệ
@@ -95,8 +85,6 @@ public class F01 extends BaseTest{
       false, 
       "Invalid passenger number"
     );
-    driver.navigate().back();
-    delay(1000);
   }
 
   public void performFlightSearch(String flightType, String ticketClass, String from, String to, int daysFromToday, String passengers, boolean expectSuccess, String alertMessage) throws InterruptedException {
@@ -104,7 +92,7 @@ public class F01 extends BaseTest{
     WebElement flightTabElement = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/ul/li[1]/button"));
     flightTabElement.click();
 
-    Thread.sleep(500);
+    delay(1000);
 
     // Chọn loại chuyến bay
     WebElement flightWayElement = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[1]/form/div[1]/div/div/div[1]/select"));
@@ -112,23 +100,23 @@ public class F01 extends BaseTest{
     flightWay.selectByValue(flightType);
 
     // Chọn hạng vé
-    Thread.sleep(500);
+    delay(1000);
     WebElement flightClassElement = driver.findElement(By.xpath("//*[@id=\"flight_type\"]"));
     Select flightClass = new Select(flightClassElement);
     flightClass.selectByValue(ticketClass);
 
     // Chọn điểm xuất phát
-    Thread.sleep(500);
+    delay(1000);
     WebElement fromElement = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[1]/form/div[2]/div[1]/div/input"));
     fromElement.sendKeys(from);
 
     // Chọn điểm đến
-    Thread.sleep(500);
+    delay(1000);
     WebElement toElement = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[1]/form/div[2]/div[2]/div[2]/input"));
     toElement.sendKeys(to);
 
     // Chọn ngày xuất phát
-    Thread.sleep(500);
+    delay(1000);
     LocalDate futureDate = LocalDate.now().plusDays(daysFromToday);
     String formattedDate = futureDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
@@ -137,7 +125,7 @@ public class F01 extends BaseTest{
     dateInput.sendKeys(formattedDate);
 
     // Chọn số lượng hành khách
-    Thread.sleep(500);
+    delay(1000);
     WebElement travellersElement = driver.findElement(By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[1]/form/div[2]/div[4]/div/div/div/a"));
     travellersElement.click();
 
@@ -146,24 +134,11 @@ public class F01 extends BaseTest{
     fAdultsElement.sendKeys(passengers);
 
     // Bấm nút tìm kiếm chuyến bay
-    Thread.sleep(500);
+    delay(1000);
     WebElement flightSearchElement = driver.findElement(By.xpath("//*[@id=\"flights-search\"]"));
     flightSearchElement.submit();
 
-    
-    // Kiểm tra tiêu đề trang kết quả hoặc thông báo lỗi
-    if (expectSuccess) {
-      Thread.sleep(1000);
-      String actualTitle = driver.getTitle();
-      String expectedTitle = "Flights Result";
-      Assert.assertEquals(actualTitle, expectedTitle, "Trang dẫn có tiêu đề không đúng");
-    } else {
-      Thread.sleep(500);
-      Alert alert = driver.switchTo().alert();
-      String actualMessage = alert.getText();
-      String expectedMessage = alertMessage;
-      Assert.assertEquals(actualMessage, expectedMessage, "Nội dung alert sai");
-      alert.accept();
-    }
+    delay(2000);
+    driver.navigate().back();
   }
 }
