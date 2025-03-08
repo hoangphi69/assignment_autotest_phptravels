@@ -4,7 +4,9 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -22,6 +24,16 @@ public class BaseTest {
       Thread.currentThread().interrupt(); // Restore interrupted status
     }
   }
+
+  public String getPopupErrorMessage() {
+    try {
+        WebElement popUpError = driver.findElement(By.xpath("/html/body/div[4]/div[2]/div[2]/div"));
+        WebElement popUpMessage = popUpError.findElement(By.xpath("/html/body/div[4]/div[2]/div[2]"));
+        return popUpMessage.getText(); 
+    } catch (Exception e) {
+        return "No output context";
+    }
+}
 
   @BeforeClass
   public void setUp() {
