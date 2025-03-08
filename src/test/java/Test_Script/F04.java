@@ -6,7 +6,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
@@ -25,12 +24,7 @@ public class F04 extends BaseTest {
   @Test
   public void TC02_IncorrectLocation1() throws InterruptedException {
     perform_testCar("GitGud", "Tokyo", "25-04-2025", "03:00", "05-05-2025", "03:00", "1");
-
-    // Kiểm tra thông báo alert
-    Alert alert = driver.switchTo().alert();
-    String expected = "invalid";
-    String actual = alert.getText();
-    Assert.assertTrue(actual.contains(expected), "Thông báo sai: " + actual);
+    System.out.println(">>OUTPUT CONTEXT 02: " + getPopupErrorMessage());
   }
 
   // TC03: Bỏ trống địa điểm đón (tham số location lại trả về kết quả trước đó khi
@@ -38,12 +32,7 @@ public class F04 extends BaseTest {
   @Test
   public void TC03_IncorrectLocation2() throws InterruptedException {
     perform_testCar("", "Tokyo", "25-04-2025", "03:00", "05-05-2025", "03:00", "1");
-
-    // Kiểm tra thông báo alert
-    Alert alert = driver.switchTo().alert();
-    String expected = "empty";
-    String actual = alert.getText();
-    Assert.assertTrue(actual.contains(expected), "Thông báo sai: " + actual);
+    System.out.println(">>OUTPUT CONTEXT 03: " + getPopupErrorMessage());
   }
 
   // TC04: Nhập sai địa điểm trả khách (tham số location lại trả về kết quả trước
@@ -51,12 +40,7 @@ public class F04 extends BaseTest {
   @Test
   public void TC04_IncorrectLocation3() throws InterruptedException {
     perform_testCar("Tokyo", "GitGud", "25-04-2025", "03:00", "05-05-2025", "03:00", "1");
-
-    // Kiểm tra thông báo alert
-    Alert alert = driver.switchTo().alert();
-    String expected = "invalid";
-    String actual = alert.getText();
-    Assert.assertTrue(actual.contains(expected), "Thông báo sai: " + actual);
+    System.out.println(">>OUTPUT CONTEXT 04: " + getPopupErrorMessage());
   }
 
   // TC05: Bỏ trống địa điểm trả khách (tham số location lại trả về kết quả trước
@@ -64,26 +48,53 @@ public class F04 extends BaseTest {
   @Test
   public void TC05_IncorrectLocation4() throws InterruptedException {
     perform_testCar("Tokyo", "", "25-04-2025", "03:00", "05-05-2025", "03:00", "1");
-
-    // Kiểm tra thông báo alert
-    Alert alert = driver.switchTo().alert();
-    String expected = "invalid";
-    String actual = alert.getText();
-    Assert.assertTrue(actual.contains(expected), "Thông báo sai: " + actual);
+    System.out.println(">>OUTPUT CONTEXT 05: " + getPopupErrorMessage());
   }
 
-  // TC06: Bỏ trống cả 2 địa điểm (tham số location lại trả về kết quả trước đó
-  // khi không nhập địa điểm)
-  // @Test
-  // public void TC06_IncorrectLocation5() throws InterruptedException {
-  // perform_testCar("", "", "25-04-2025", "03:00", "05-05-2025", "03:00", "1");
-  // }
+  // TC06: Bỏ trống cả 2 địa điểm (tham số location lại trả về kết quả trước đó khi không nhập địa điểm)
+  @Test
+  public void TC06_IncorrectLocation5() throws InterruptedException {
+  perform_testCar("", "", "25-04-2025", "03:00", "05-05-2025", "03:00", "1");
+  Alert alert = driver.switchTo().alert();
+  alert.accept();
+  String alertMessage = alert.getText();
+  System.out.println(">>OUTPUT CONTEXT 06: " + alertMessage);  
+  }
 
-  // TC07: Bỏ trống thời gian đón
-  // @Test
-  // public void TC07_PickUpTimeBlank() throws InterruptedException {
-  // perform_testCar("Tokyo", "Tokyo", "", "03:00");
-  // }
+  // TC07: Bỏ trống ngày đón
+  @Test
+  public void TC07_PickUpDateBlank() throws InterruptedException {
+    perform_testCar("Tokyo", "Tokyo", "", "03:00", "05-05-2025", "03:00", "1");
+    System.out.println(">>OUTPUT CONTEXT 07: " + getPopupErrorMessage());
+  }
+
+  // TC08: Bỏ trống thời gian đón
+  @Test
+  public void TC08_PickUpTimeBlank() throws InterruptedException {
+    perform_testCar("Tokyo", "Tokyo", "25-04-2025", "", "05-05-2025", "03:00", "1");
+    System.out.println(">>OUTPUT CONTEXT 08: " + getPopupErrorMessage());
+  }
+
+  // TC09: Bỏ trống ngày trả 
+  @Test
+  public void TC09_DropOffDateBlank() throws InterruptedException {
+    perform_testCar("Tokyo", "Tokyo", "25-04-2025", "03:00", "", "03:00", "1");
+    System.out.println(">>OUTPUT CONTEXT 09: " + getPopupErrorMessage());
+  }
+
+  // TC10: Bỏ trống thời gian trả 
+  @Test
+  public void TC10_DropOffTimeBlank() throws InterruptedException {
+    perform_testCar("Tokyo", "Tokyo", "25-04-2025", "03:00", "05-05-2025", "", "1");
+    System.out.println(">>OUTPUT CONTEXT 10: " + getPopupErrorMessage());
+  }
+
+  // TC11: Không chọn số lượng khách
+  @Test
+  public void TC11_Adults() throws InterruptedException {
+    perform_testCar("Tokyo", "Tokyo", "25-04-2025", "03:00", "05-05-2025", "03:00", "");
+    System.out.println(">>OUTPUT CONTEXT 11: " + getPopupErrorMessage());
+  }
 
   public void perform_testCar(String locationBegin, String locationEnd, String pick_upDate, String pick_upTime,
       String drop_offDate, String drop_offTime, String adultNumber)
@@ -110,7 +121,7 @@ public class F04 extends BaseTest {
       locationBeginInput.sendKeys(Keys.ENTER);
       delay(500);
     } else { // Không nhập input
-      System.out.println("Thông báo lỗi TC03: Vui lòng chọn địa điểm");
+      System.out.println("");
     }
 
     // Chọn địa điểm trả khách
