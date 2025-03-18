@@ -1,0 +1,32 @@
+{
+  "TC01": {
+    "city": "Tokyo",
+    "date": "25-04-2025",
+    "adults": "1",
+    "children": "1"
+  },
+  "TC02": {
+    "city": "GitGud",
+    "date": "25-04-2025",
+    "adults": "1",
+    "children": "1"
+  },
+  "TC03": {
+    "city": "",
+    "date": "25-04-2025",
+    "adults": "1",
+    "children": "1"
+  },
+  "TC04": {
+    "city": "Tokyo",
+    "date": "25-04-2024",
+    "adults": "1",
+    "children": "1"
+  },
+  "TC05": {
+    "city": "Tokyo",
+    "date": "25-04-2025",
+    "adults": "0",
+    "children": "-1"
+  }
+}

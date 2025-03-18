@@ -1,0 +1,52 @@
+{
+  "TC01": {
+    "from": "Tokyo",
+    "to": "Tokyo",
+    "pickupDate": "25-04-2025",
+    "pickupTime": "03:00",
+    "dropoffDate": "05-05-2025",
+    "dropoffTime": "03:00",
+    "adults": "1",
+    "children": "1"
+  },
+  "TC02": {
+    "from": "GitGud",
+    "to": "Tokyo",
+    "pickupDate": "25-04-2025",
+    "pickupTime": "03:00",
+    "dropoffDate": "05-05-2025",
+    "dropoffTime": "03:00",
+    "adults": "1",
+    "children": "1"
+  },
+  "TC03": {
+    "from": "",
+    "to": "Tokyo",
+    "pickupDate": "25-04-2025",
+    "pickupTime": "03:00",
+    "dropoffDate": "05-05-2025",
+    "dropoffTime": "03:00",
+    "adults": "1",
+    "children": "1"
+  },
+  "TC04": {
+    "from": "Tokyo",
+    "to": "GitGud",
+    "pickupDate": "25-04-2025",
+    "pickupTime": "03:00",
+    "dropoffDate": "05-05-2025",
+    "dropoffTime": "03:00",
+    "adults": "1",
+    "children": "1"
+  },
+  "TC05": {
+    "from": "Tokyo",
+    "to": "",
+    "pickupDate": "25-04-2025",
+    "pickupTime": "03:00",
+    "dropoffDate": "05-05-2025",
+    "dropoffTime": "03:00",
+    "adults": "1",
+    "children": "1"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "TC01": {
+    "city": "Dubai",
+    "checkin": "15-03-2025",
+    "checkout": "20-03-2025",
+    "rooms": "1",
+    "adults": "1",
+    "children": "1"
+  },
+  "TC02": {
+    "city": "",
+    "checkin": "15-03-2025",
+    "checkout": "20-03-2025",
+    "rooms": "1",
+    "adults": "1",
+    "children": "1"
+  },
+  "TC03": {
+    "city": "",
+    "checkin": "20-03-2025",
+    "checkout": "15-03-2025",
+    "rooms": "1",
+    "adults": "1",
+    "children": "1"
+  },
+  "TC04": {
+    "city": "Dubai",
+    "checkin": "15-03-2025",
+    "checkout": "20-03-2025",
+    "rooms": "1",
+    "adults": "-999",
+    "children": "999"
+  },
+  "TC05": {
+    "city": "Dubai",
+    "checkin": "15-03-2024",
+    "checkout": "20-03-2025",
+    "rooms": "1",
+    "adults": "1",
+    "children": "1"
+  }
+}
