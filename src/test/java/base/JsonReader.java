@@ -1,4 +1,4 @@
-package utils;
+package base;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonReader {
-  private static final String BASE_PATH = "src/test/java/";
+  private static final String BASE_PATH = "src/test/java/resources/";
 
   public static JsonNode getTestData(String fileName, String key) {
     try {

@@ -1,0 +1,17 @@
+{
+  "TC01": {
+    "currency": "EUR"
+  },
+  "TC02": {
+    "currency": "GBP"
+  },
+  "TC03": {
+    "currency": "SAR"
+  },
+  "TC04": {
+    "currency": "USD"
+  },
+  "TC05": {
+    "currency": "EUR"
+  }
+}

@@ -1,27 +1,35 @@
-package F01_FlightSearch;
+package tests;
 
 import org.openqa.selenium.Alert;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import utils.JsonReader;
+import base.BaseTest;
+import base.JsonReader;
+import pages.Homepage;
 
-public class FlightSearchTest extends FlightSearchPage {
+public class F01_FlightSearch extends BaseTest {
+  private String[] inputs;
+  private Homepage page;
+
   // TC01: Nhập thông tin hợp lệ
   @Test
   public void TC01_ValidSearch() {
-    String[] inputs = getTestData("TC01");
-    performFlightSearch(inputs);
+    inputs = getTestData("TC01");
+    page = new Homepage(driver);
+    page.performFlightSearch(inputs);
   }
 
   // TC02: Bỏ trống điểm xuất phát
   @Test
   public void TC02_SearchWithoutDeparture() {
-    String[] inputs = getTestData("TC02");
-    performFlightSearch(inputs);
+    inputs = getTestData("TC02");
+    page = new Homepage(driver);
+    page.performFlightSearch(inputs);
 
     // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
@@ -35,8 +43,9 @@ public class FlightSearchTest extends FlightSearchPage {
   // TC03: Bỏ trống điểm đến
   @Test
   public void TC03_SearchWithoutDestination() {
-    String[] inputs = getTestData("TC03");
-    performFlightSearch(inputs);
+    inputs = getTestData("TC03");
+    page = new Homepage(driver);
+    page.performFlightSearch(inputs);
 
     // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
@@ -50,8 +59,9 @@ public class FlightSearchTest extends FlightSearchPage {
   // TC04: Ngày trong quá khứ
   @Test
   public void TC04_SearchWithPastDate() {
-    String[] inputs = getTestData("TC04");
-    performFlightSearch(inputs);
+    inputs = getTestData("TC04");
+    page = new Homepage(driver);
+    page.performFlightSearch(inputs);
 
     // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
@@ -65,8 +75,9 @@ public class FlightSearchTest extends FlightSearchPage {
   // TC05: Số lượng hành khách không hợp lệ
   @Test
   public void TC05_SearchWithInvalidPassengerNumber() {
-    String[] inputs = getTestData("TC05");
-    performFlightSearch(inputs);
+    inputs = getTestData("TC05");
+    page = new Homepage(driver);
+    page.performFlightSearch(inputs);
 
     // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
@@ -78,7 +89,7 @@ public class FlightSearchTest extends FlightSearchPage {
   }
 
   public String[] getTestData(String key) {
-    JsonNode data = JsonReader.getTestData("F01_FlightSearch/FlightSearchData.json", key);
+    JsonNode data = JsonReader.getTestData("flight-search-test-data.json", key);
     return new String[] {
         data.get("way").asText(),
         data.get("type").asText(),
@@ -91,9 +102,15 @@ public class FlightSearchTest extends FlightSearchPage {
     };
   }
 
+  @BeforeMethod
+  public void construct() {
+    page = new Homepage(driver);
+  }
+
   @AfterMethod
   public void navigateBack() {
-    delay(5000);
+    delay(2000);
+    driver.manage().deleteAllCookies();
     driver.get(BASE_URL);
   }
 }

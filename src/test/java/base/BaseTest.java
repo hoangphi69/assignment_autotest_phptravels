@@ -1,4 +1,4 @@
-package utils;
+package base;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
@@ -8,8 +8,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -19,7 +19,7 @@ public class BaseTest {
   protected JavascriptExecutor js;
   protected final String BASE_URL = "https://phptravels.net/";
 
-  protected void delay(long milliseconds) {
+  public void delay(long milliseconds) {
     try {
       Thread.sleep(milliseconds);
     } catch (InterruptedException e) {
@@ -27,7 +27,11 @@ public class BaseTest {
     }
   }
 
-  @BeforeSuite
+  public WebDriver getDriver() {
+    return driver;
+  }
+
+  @BeforeClass
   public void setUp() {
     // Config UTF-8 cho console
     System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
@@ -46,7 +50,7 @@ public class BaseTest {
     js = (JavascriptExecutor) driver;
   }
 
-  @AfterSuite
+  @AfterClass
   public void tearDown() {
     // Đóng trình duyệt
     if (driver != null) {

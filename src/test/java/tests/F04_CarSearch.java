@@ -1,27 +1,33 @@
-package F04_CarSearch;
+package tests;
 
 import org.openqa.selenium.Alert;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import utils.JsonReader;
+import base.BaseTest;
+import base.JsonReader;
+import pages.Homepage;
 
-public class CarSearchTest extends CarSearchPage {
+public class F04_CarSearch extends BaseTest {
+  private String[] inputs;
+  private Homepage page;
+
   // TC01: Nhập chính xác trường thông tin
   @Test
   public void TC01_ValidInput() {
-    String[] inputs = getTestData("TC01");
-    performCarSearch(inputs);
+    inputs = getTestData("TC01");
+    page.performCarSearch(inputs);
   }
 
   // TC02: Nhập sai địa điểm đón
   @Test
   public void TC02_IncorrectLocation1() {
-    String[] inputs = getTestData("TC02");
-    performCarSearch(inputs);
+    inputs = getTestData("TC02");
+    page.performCarSearch(inputs);
 
     // Kiểm tra thông báo alert
     Alert alert = driver.switchTo().alert();
@@ -33,8 +39,8 @@ public class CarSearchTest extends CarSearchPage {
   // TC03: Bỏ trống địa điểm đón
   @Test
   public void TC03_IncorrectLocation2() {
-    String[] inputs = getTestData("TC03");
-    performCarSearch(inputs);
+    inputs = getTestData("TC03");
+    page.performCarSearch(inputs);
 
     // Kiểm tra thông báo alert
     Alert alert = driver.switchTo().alert();
@@ -46,8 +52,8 @@ public class CarSearchTest extends CarSearchPage {
   // TC04: Nhập sai địa điểm trả khách
   @Test
   public void TC04_IncorrectLocation3() {
-    String[] inputs = getTestData("TC04");
-    performCarSearch(inputs);
+    inputs = getTestData("TC04");
+    page.performCarSearch(inputs);
 
     // Kiểm tra thông báo alert
     Alert alert = driver.switchTo().alert();
@@ -59,8 +65,8 @@ public class CarSearchTest extends CarSearchPage {
   // TC05: Bỏ trống địa điểm trả khách
   @Test
   public void TC05_IncorrectLocation4() {
-    String[] inputs = getTestData("TC05");
-    performCarSearch(inputs);
+    inputs = getTestData("TC05");
+    page.performCarSearch(inputs);
 
     // Kiểm tra thông báo alert
     Alert alert = driver.switchTo().alert();
@@ -70,7 +76,7 @@ public class CarSearchTest extends CarSearchPage {
   }
 
   public String[] getTestData(String key) {
-    JsonNode data = JsonReader.getTestData("F04_CarSearch/CarSearchData.json", key);
+    JsonNode data = JsonReader.getTestData("car-search-test-data.json", key);
     return new String[] {
         data.get("from").asText(),
         data.get("to").asText(),
@@ -83,9 +89,15 @@ public class CarSearchTest extends CarSearchPage {
     };
   }
 
+  @BeforeMethod
+  public void construct() {
+    page = new Homepage(driver);
+  }
+
   @AfterMethod
   public void navigateBack() {
-    delay(5000);
+    delay(2000);
+    driver.manage().deleteAllCookies();
     driver.get(BASE_URL);
   }
 }

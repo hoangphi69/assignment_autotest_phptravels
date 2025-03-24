@@ -1,0 +1,37 @@
+{
+  "TC01": {
+    "input": {
+      "email": "user@phptravels.com",
+      "password": "demouser"
+    },
+    "output": "https://phptravels.net/dashboard"
+  },
+  "TC02": {
+    "input": {
+      "email": "invalid@phptravels.com",
+      "password": "demouser"
+    },
+    "output": "Invalid Login\nPlease check your emal and password"
+  },
+  "TC03": {
+    "input": {
+      "email": "user@phptravels.com",
+      "password": "invalidpassword"
+    },
+    "output": "Invalid Login\nPlease check your emal and password"
+  },
+  "TC04": {
+    "input": {
+      "email": "",
+      "password": "demouser"
+    },
+    "output": "Invalid Login\nPlease check your emal and password"
+  },
+  "TC05": {
+    "input": {
+      "email": "user@phptravels.com",
+      "password": ""
+    },
+    "output": "Invalid Login\nPlease check your emal and password"
+  }
+}
