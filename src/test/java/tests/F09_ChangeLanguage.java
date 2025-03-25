@@ -16,49 +16,49 @@ public class F09_ChangeLanguage extends BaseTest {
   private String[] inputs;
   private Homepage page;
 
-  // TC01: Change language to Turkish
+  // TC01: Đổi ngôn ngữ sang tiếng Thổ Nhĩ Kỳ
   @Test
   public void TC01_ChangeToTurkish() {
     inputs = getInputs("TC01");
     testChangeLanguage(inputs[0], "TC01");
   }
 
-  // TC02: Change language to Russian
+  // TC02: Đổi ngôn ngữ sang tiếng Nga
   @Test
   public void TC02_ChangeToRussian() {
     inputs = getInputs("TC02");
     testChangeLanguage(inputs[0], "TC02");
   }
 
-  // TC03: Change language to French
+  // TC03: Đổi ngôn ngữ sang tiếng Pháp
   @Test
   public void TC03_ChangeToFrench() {
     inputs = getInputs("TC03");
     testChangeLanguage(inputs[0], "TC03");
   }
 
-  // TC04: Change language to Chinese
+  // TC04: Đổi ngôn ngữ sang tiếng Trung
   @Test
   public void TC04_ChangeToChinese() {
     inputs = getInputs("TC04");
     testChangeLanguage(inputs[0], "TC04");
   }
 
-  // TC05: Change language to German
+  // TC05: Đổi ngôn ngữ sang tiếng Đức
   @Test
   public void TC05_ChangeToGerman() {
     inputs = getInputs("TC05");
     testChangeLanguage(inputs[0], "TC05");
   }
 
-  // TC06: Change language to English
+  // TC06: Đổi ngôn ngữ sang tiếng Anh
   @Test
   public void TC06_ChangeToEnglish() {
     inputs = getInputs("TC06");
     testChangeLanguage(inputs[0], "TC06");
   }
 
-  // TC07: Change language to Arabic
+  // TC07: Đổi ngôn ngữ sang tiếng Ả Rập
   @Test
   public void TC07_ChangeToArabic() {
     inputs = getInputs("TC07");
