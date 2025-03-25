@@ -128,6 +128,10 @@ public class Homepage {
 
   public By LANGUAGE_OPTIONS = By.xpath("/html/body/header/div/div[2]/div[2]/ul/li[1]/ul");
 
+  // Component chuyến bay nổi bật
+  public By FEATURED_FLIGHT_1 = By
+      .xpath("/html/body/main/div[2]/div/section/div[2]/div/div/div[1]/div/div/div/div/div[1]/a");
+
   // Constructor
   public Homepage(WebDriver driver) {
     this.driver = driver;
