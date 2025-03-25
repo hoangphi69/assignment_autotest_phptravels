@@ -118,10 +118,15 @@ public class Homepage {
   // Component đổi tiền tệ
   public By CURRENCY_DROPDOWN = By.xpath("/html/body/header/div/div[2]/div[2]/ul/li[2]/a");
 
-  public By CURRENCY_OPTION = By.xpath("html/body/header/div/div[2]/div[2]/ul/li[2]/ul");
+  public By CURRENCY_OPTIONS = By.xpath("html/body/header/div/div[2]/div[2]/ul/li[2]/ul");
 
   public By EXAMPLE_TEXT = By
       .xpath("/html/body/main/section/div/div/div[2]/div[1]/div/div/div[1]/div/div[2]/div[1]/h5/span/strong");
+
+  // Component đổi ngôn ngữ
+  public By LANGUAGE_DROPDOWN = By.xpath("/html/body/header/div/div[2]/div[2]/ul/li[1]/a");
+
+  public By LANGUAGE_OPTIONS = By.xpath("/html/body/header/div/div[2]/div[2]/ul/li[1]/ul");
 
   // Constructor
   public Homepage(WebDriver driver) {
@@ -459,7 +464,7 @@ public class Homepage {
 
   // Chọn đơn vị tiền tệ
   public void selectCurrencyOption(String toCurrency) {
-    WebElement currencyOption = driver.findElement(CURRENCY_OPTION)
+    WebElement currencyOption = driver.findElement(CURRENCY_OPTIONS)
         .findElement(By.xpath(".//*[contains(text(), '%s')]".formatted(toCurrency)));
     currencyOption.click();
   }
@@ -468,5 +473,24 @@ public class Homepage {
   public void performChangeCurrency(String currency) {
     clickDropdownCurrency();
     selectCurrencyOption(currency);
+  }
+
+  // Bấm dropdown ngôn ngữ
+  public void clickDropdownLanguage() {
+    WebElement dropdownLanguage = driver.findElement(LANGUAGE_DROPDOWN);
+    dropdownLanguage.click();
+  }
+
+  // Chọn ngôn ngữ
+  public void selectLanguageOption(String language) {
+    WebElement languageOption = driver.findElement(LANGUAGE_OPTIONS)
+        .findElement(By.xpath(".//*[contains(text(), '%s')]".formatted(language)));
+    languageOption.click();
+  }
+
+  // Thực hiện đổi ngôn ngữ
+  public void performChangeLanguage(String language) {
+    clickDropdownLanguage();
+    selectLanguageOption(language);
   }
 }

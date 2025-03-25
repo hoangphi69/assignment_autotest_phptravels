@@ -1,0 +1,58 @@
+{
+  "TC01": {
+    "input": {
+      "language": "Turkish"
+    },
+    "output": {
+      "example": "Seyahatiniz Burada Başlıyor!"
+    }
+  },
+  "TC02": {
+    "input": {
+      "language": "Russian"
+    },
+    "output": {
+      "example": "Ваше путешествие начинается здесь!"
+    }
+  },
+  "TC03": {
+    "input": {
+      "language": "French"
+    },
+    "output": {
+      "example": "Votre voyage commence ici !"
+    }
+  },
+  "TC04": {
+    "input": {
+      "language": "Chinese"
+    },
+    "output": {
+      "example": "你的旅程从这里开始!"
+    }
+  },
+  "TC05": {
+    "input": {
+      "language": "Germany"
+    },
+    "output": {
+      "example": "Ihre Reise beginnt hier!"
+    }
+  },
+  "TC06": {
+    "input": {
+      "language": "English"
+    },
+    "output": {
+      "example": "Your Trip Starts Here!"
+    }
+  },
+  "TC07": {
+    "input": {
+      "language": "Arabic"
+    },
+    "output": {
+      "example": "رحلتك تبدأ هنا!"
+    }
+  }
+}
