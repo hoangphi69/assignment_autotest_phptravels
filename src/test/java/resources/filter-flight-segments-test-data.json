@@ -1,0 +1,17 @@
+{
+  "TC01": {
+    "type": "Direct"
+  },
+  "TC02": {
+    "type": "1 Stops"
+  },
+  "TC03": {
+    "type": "2 Stops"
+  },
+  "TC04": {
+    "type": "All"
+  },
+  "TC05": {
+    "type": "Direct"
+  }
+}
