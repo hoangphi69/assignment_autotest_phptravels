@@ -1,0 +1,17 @@
+{
+  "TC01": {
+    "asc": false
+  },
+  "TC02": {
+    "asc": true
+  },
+  "TC03": {
+    "asc": false
+  },
+  "TC04": {
+    "asc": true
+  },
+  "TC05": {
+    "asc": false
+  }
+}
