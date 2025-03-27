@@ -1,7 +1,5 @@
 package tests;
 
-import java.util.List;
-
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
