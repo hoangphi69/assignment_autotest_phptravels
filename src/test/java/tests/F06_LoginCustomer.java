@@ -14,7 +14,7 @@ import base.BaseTest;
 import base.JsonReader;
 import pages.LoginCustomerPage;
 
-public class F05_LoginCustomer extends BaseTest {
+public class F06_LoginCustomer extends BaseTest {
   private String[] inputs;
   private LoginCustomerPage page;
 

@@ -1,0 +1,32 @@
+{
+  "TC01": {
+    "from": "Viet Nam",
+    "to": "Japan",
+    "date": "25-04-2025"
+  },
+  "TC02": {
+    "from": "Viet Nam",
+    "to": "Japan",
+    "date": "invalid-date"
+  },
+  "TC03": {
+    "from": "Viet Nam",
+    "to": "Japan",
+    "date": ""
+  },
+  "TC04": {
+    "from": "Viet Nam",
+    "to": "",
+    "date": "25-04-2025"
+  },
+  "TC05": {
+    "from": "",
+    "to": "Japan",
+    "date": "25-04-2025"
+  },
+  "TC06": {
+    "from": "Viet Nam",
+    "to": "Japan",
+    "date": "01-01-2020"
+  }
+}

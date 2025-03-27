@@ -115,6 +115,31 @@ public class Homepage {
   public By CAR_SEARCH_BUTTON = By
       .xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[4]/form/div/div[6]/button");
 
+  // Component apply visa
+  public By VISA_TAB = By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/ul/li[5]/button");
+
+  public By VISA_FROM_SELECT = By.xpath(
+      "/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[5]/form/div/div[1]/div[1]/div[2]/span/span[1]/span");
+
+  public By VISA_FROM_HIDDEN = By
+      .xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[5]/form/div/div[1]/div[1]/div[2]/select");
+
+  public By VISA_FROM_INPUT = By.xpath("/html/body/span/span/span[1]/input");
+
+  public By VISA_TO_SELECT = By.xpath(
+      "/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[5]/form/div/div[2]/div[1]/div[2]/span/span[1]/span");
+
+  public By VISA_TO_HIDDEN = By
+      .xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[5]/form/div/div[2]/div[1]/div[2]/select");
+
+  public By VISA_TO_INPUT = By.xpath("/html/body/span/span/span[1]/input");
+
+  public By VISA_DATE_INPUT = By
+      .xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[5]/form/div/div[3]/div/input");
+
+  public By VISA_APPLICATION_BUTTON = By
+      .xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/div/div/div[5]/form/div/div[4]/button");
+
   // Component đổi tiền tệ
   public By CURRENCY_DROPDOWN = By.xpath("/html/body/header/div/div[2]/div[2]/ul/li[2]/a");
 
@@ -452,6 +477,62 @@ public class Homepage {
     enterCarDropoffDateTime(dropoffDate, dropoffTime);
     enterCarTravellers(adults, children);
     clickCarSearchButton();
+  }
+
+  // Click tab visa
+  public void clickVisaTab() {
+    WebElement tab = driver.findElement(VISA_TAB);
+    tab.click();
+  }
+
+  // Nhập quốc gia xuất phát
+  public void enterVisaFrom(String country) {
+    WebElement fromField = driver.findElement(VISA_FROM_SELECT);
+    fromField.click();
+
+    WebElement fromInput = driver.findElement(VISA_FROM_INPUT);
+    fromInput.sendKeys(country);
+    delay(300);
+    fromInput.sendKeys(Keys.ENTER);
+  }
+
+  // Nhập quốc gia đích đến
+  public void enterVisaTo(String country) {
+    WebElement toField = driver.findElement(VISA_TO_SELECT);
+    toField.click();
+
+    WebElement toInput = driver.findElement(VISA_TO_INPUT);
+    toInput.sendKeys(country);
+    delay(300);
+    toInput.sendKeys(Keys.ENTER);
+  }
+
+  // Nhập thời gian apply visa
+  public void enterVisaDate(String date) {
+    WebElement dateInput = driver
+        .findElement(VISA_DATE_INPUT);
+    js.executeScript("arguments[0].removeAttribute('readonly');", dateInput);
+    dateInput.clear();
+    dateInput.sendKeys(date);
+  }
+
+  // Bấm nút thực hiện
+  public void clickVisaApplyButton() {
+    WebElement button = driver.findElement(VISA_APPLICATION_BUTTON);
+    button.submit();
+  }
+
+  // Thực hiện apply visa
+  public void performVisaApplication(String... data) {
+    performVisaApplication(data[0], data[1], data[2]);
+  }
+
+  public void performVisaApplication(String from, String to, String date) {
+    clickVisaTab();
+    enterVisaFrom(from);
+    enterVisaTo(to);
+    enterVisaDate(date);
+    clickVisaApplyButton();
   }
 
   // Lấy text element kiểm tra đại diện
