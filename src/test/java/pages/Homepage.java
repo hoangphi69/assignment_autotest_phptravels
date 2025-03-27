@@ -273,7 +273,7 @@ public class Homepage {
     WebElement locationInput = driver.findElement(HOTEL_CITY_INPUT);
     locationInput.clear();
     locationInput.sendKeys(city);
-    delay(300);
+    delay(500);
     locationInput.sendKeys(Keys.ENTER);
   }
 
