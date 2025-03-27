@@ -57,6 +57,14 @@ public class FlightListPage {
 
   public By FILTER_TIME_ARRIVAL_TAB = By.id("arrival-tab");
 
+  // Component sắp xếp
+  public By SORT_ASC_BUTTON = By.xpath("/html/body/main/section/div[2]/div[2]/div[3]/nav/ul/li[1]/button");
+
+  public By SORT_DESC_BUTTON = By.xpath("/html/body/main/section/div[2]/div[2]/div[3]/nav/ul/li[2]/button");
+
+  // Component phân trang
+  public By NEXT_PAGE = By.xpath("/html/body/main/section/div[2]/div[2]/div[3]/div/nav/ul/li[4]/button");
+
   // Constructor
   public FlightListPage(WebDriver driver) {
     this.driver = driver;
@@ -212,5 +220,19 @@ public class FlightListPage {
     delay(2000);
     filter.findElement(FILTER_TIME_ARRIVAL_TAB).click();
     filter.findElement(By.id("arrival-%s".formatted(Helpers.toKebabCase(type)))).click();
+  }
+
+  // Thực hiện sắp xếp danh sách chuyến bay
+  public void performSortFlights(boolean asc) {
+    By button = (asc) ? SORT_ASC_BUTTON : SORT_DESC_BUTTON;
+    driver.findElement(button).click();
+  }
+
+  // Thực hiện sang trang tiếp theo
+  public void performNextPage() {
+    WebElement button = driver.findElement(NEXT_PAGE);
+    js.executeScript("arguments[0].scrollIntoView({block: 'center'});", button);
+    delay(2000);
+    button.click();
   }
 }
