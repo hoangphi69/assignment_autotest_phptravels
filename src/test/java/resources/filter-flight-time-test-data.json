@@ -1,0 +1,17 @@
+{
+  "TC01": {
+    "type": "Early Morning"
+  },
+  "TC02": {
+    "type": "Morning"
+  },
+  "TC03": {
+    "type": "Afternoon"
+  },
+  "TC04": {
+    "type": "Evening"
+  },
+  "TC05": {
+    "type": "Early Morning"
+  }
+}

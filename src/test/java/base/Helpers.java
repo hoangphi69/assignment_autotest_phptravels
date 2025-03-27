@@ -29,4 +29,10 @@ public class Helpers {
 
     return String.format("%s %.2f", toCurrency, convertedAmount);
   }
+
+  public static String toKebabCase(String input) {
+    String kebab = input.replaceAll("[_\\s]+", "-");
+    kebab = kebab.replaceAll("([a-z])([A-Z])", "$1-$2");
+    return kebab.toLowerCase();
+  }
 }
