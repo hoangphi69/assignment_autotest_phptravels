@@ -19,14 +19,14 @@ public class F02_HotelSearch extends BaseTest {
 
   // TC01: Tham số truyền vào hợp lệ
   @Test
-  public void testValidHotel() {
+  public void TC01_ValidHotel() {
     inputs = getTestData("TC01");
     page.performHotelSearch(inputs);
   }
 
   // TC02: Không nhập địa điểm
   @Test
-  public void testSearchWithoutLocation() {
+  public void TC02_SearchWithoutLocation() {
     inputs = getTestData("TC02");
     page.performHotelSearch(inputs);
 
@@ -39,7 +39,7 @@ public class F02_HotelSearch extends BaseTest {
 
   // TC03: Nhập thời gian trả phòng sớm hơn thời gian nhận phòng
   @Test
-  public void testCheckinBeforeCheckout() {
+  public void TC03_CheckinBeforeCheckout() {
     inputs = getTestData("TC03");
     page.performHotelSearch(inputs);
 
@@ -53,7 +53,7 @@ public class F02_HotelSearch extends BaseTest {
 
   // TC04: Nhập số lượng khách tối đa
   @Test
-  public void testExceedGuestLimit() {
+  public void TC04_ExceedGuestLimit() {
     inputs = getTestData("TC04");
     page.performHotelSearch(inputs);
 
@@ -67,7 +67,7 @@ public class F02_HotelSearch extends BaseTest {
 
   // TC05: Nhập thời gian check in trước hiện tại
   @Test
-  public void testPastCheckinDate() {
+  public void TC05_PastCheckinDate() {
     inputs = getTestData("TC05");
     page.performHotelSearch(inputs);
 
