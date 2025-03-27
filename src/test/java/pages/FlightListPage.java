@@ -1,13 +1,10 @@
 package pages;
 
 import java.time.Duration;
-<<<<<<< HEAD
-import java.util.Collections;
-=======
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
->>>>>>> a05e440a9d1541cd247f6063f4ea9498aedb37a7
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -25,12 +22,9 @@ import base.Helpers;
 public class FlightListPage {
   private WebDriver driver;
   private WebDriverWait wait;
-<<<<<<< HEAD
   private String airlineName;
 
-=======
   private JavascriptExecutor js;
->>>>>>> a05e440a9d1541cd247f6063f4ea9498aedb37a7
 
   // Component danh sách chuyến bay
   public By FLIGHT_LIST = By.id("flight-list");
@@ -61,14 +55,12 @@ public class FlightListPage {
   // Component filter chặng bay
   public By FILTER_SEGMENTS = By.xpath("/html/body/main/section/div[2]/div[2]/div[2]/div/div[1]");
 
-<<<<<<< HEAD
   // Component filter hãng bay
   public By AIRLINES_LIST = By.xpath("/html/body/main/section/div[2]/div[2]/div[2]/div/div[3]/div[2]");
   public By AIRLINE_ITEMS = By.cssSelector("html body#fadein main section.ng-scope div.container.mb-5.mt-2 div.row.g-3 div.col-md-3.order-md-1.order-2 div.flights_filter div.card.mt-3.border.rounded-4 div.card-body.p-4 ul.list.remove_duplication.checkbox-group.oneway--checkbox-filter ul.list.remove_duplication.checkbox-group.oneway--checkbox-filter li.ng-scope");
   public By AIRLINES_ITEM(String airlineName) {
     return By.xpath(String.format("//*[@id='%s']", airlineName));
 }
-=======
   // Component filter giá vé
   public By FILTER_PRICE = By.xpath("/html/body/main/section/div[2]/div[2]/div[2]/div/div[2]");
 
@@ -96,7 +88,6 @@ public class FlightListPage {
 
   // Component phân trang
   public By NEXT_PAGE = By.xpath("/html/body/main/section/div[2]/div[2]/div[3]/div/nav/ul/li[4]/button");
->>>>>>> a05e440a9d1541cd247f6063f4ea9498aedb37a7
 
   // Constructor
   public FlightListPage(WebDriver driver) {
@@ -105,8 +96,6 @@ public class FlightListPage {
     wait = new WebDriverWait(driver, Duration.ofSeconds(10));
   }
 
-<<<<<<< HEAD
-=======
   // Delay page
   public void delay(long milliseconds) {
     try {
@@ -122,7 +111,6 @@ public class FlightListPage {
     List<WebElement> flights = list.findElements(FLIGHT_ITEM);
     return flights;
   }
->>>>>>> a05e440a9d1541cd247f6063f4ea9498aedb37a7
 
   // Lấy số lượng chuyến bay trong danh sách
   public int getFlightsCount() {
@@ -193,7 +181,6 @@ public class FlightListPage {
     filter.findElement(By.xpath(".//*[contains(text(), '%s')]".formatted(type))).click();
   }
 
-<<<<<<< HEAD
   // Lấy element thành dạng text
   public String getElementToText(By element) {
     WebElement field = wait.until(ExpectedConditions.visibilityOfElementLocated(element));
@@ -303,15 +290,6 @@ public String selectAirline() throws InterruptedException {
     nullTicket.getText();
   }
 
-  // các chuyến bay
-  public List<WebElement> getFlights() {
-    WebElement flight_ticket = driver.findElement(FLIGHT_CARD);
-    WebElement flight_detail = flight_ticket.findElement(FLIGHT_CARD_DETAIL);
-    WebElement plane_card = flight_detail.findElement(PLANE_CARD);
-    List<WebElement> flights = plane_card.findElements(FLIGHT_ITEM);
-    return flights;
-  }
-
   public void scrollToTop() {
     JavascriptExecutor js = (JavascriptExecutor) driver;
     js.executeScript("window.scrollTo(0, 0);");
@@ -339,7 +317,8 @@ public String selectAirline() throws InterruptedException {
     System.out.println("Airline: " + airline);
 
     return airline;
-=======
+  }
+
   // Lấy giá vé min từ filter
   public int getFilterPriceMin() {
     WebElement filter = wait.until(ExpectedConditions.visibilityOfElementLocated(FILTER_PRICE));
@@ -417,6 +396,5 @@ public String selectAirline() throws InterruptedException {
     js.executeScript("arguments[0].scrollIntoView({block: 'center'});", button);
     delay(2000);
     button.click();
->>>>>>> a05e440a9d1541cd247f6063f4ea9498aedb37a7
   }
 }
