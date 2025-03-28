@@ -17,9 +17,7 @@ public class BaseTest {
   protected WebDriver driver;
   protected WebDriverWait wait;
   protected JavascriptExecutor js;
-  protected final String BASE_URL = "https://phptravels.net/";
-
-  protected final String test_URL = "https://phptravels.net/hotels/dubai/30-03-2025/31-03-2025/1/2/0/US";
+  protected final String BASE_URL = "https://phptravels.net";
 
   public void delay(long milliseconds) {
     try {

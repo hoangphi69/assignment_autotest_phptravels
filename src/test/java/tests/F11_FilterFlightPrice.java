@@ -14,7 +14,7 @@ import base.JsonReader;
 import pages.FlightListPage;
 import pages.Homepage;
 
-public class F11_FilterFlightsPrice extends BaseTest {
+public class F11_FilterFlightPrice extends BaseTest {
   private Integer[] inputs;
   private FlightListPage page;
 

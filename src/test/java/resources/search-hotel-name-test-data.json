@@ -1,17 +1,17 @@
 {
   "TC01": {
-    "search": "Early Morning"
+    "search": "hotel"
   },
   "TC02": {
-    "search": "Morning"
+    "search": "unknown"
   },
   "TC03": {
-    "search": "Afternoon"
+    "search": "-"
   },
   "TC04": {
-    "search": "Evening"
+    "search": "   hotel   "
   },
   "TC05": {
-    "search": "Early Morning"
+    "search": "      "
   }
 }

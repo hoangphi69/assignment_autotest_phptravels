@@ -20,24 +20,23 @@ public class F12_FilterAirlines extends BaseTest{
       this.page = new FlightListPage(driver);
   }
 
-    @BeforeMethod
-    public void construct() {
-      page = new FlightListPage(driver);
-    }
+  @BeforeClass
+  public void navigateToPage() {
+    Homepage homepage = new Homepage(driver);
+    driver.findElement(homepage.FEATURED_FLIGHT_1).click();
+    delay(5000);
+  }
 
-    @BeforeClass
-    public void navigateToPage() {
-      Homepage homepage = new Homepage(driver);
-      driver.findElement(homepage.FEATURED_FLIGHT_1).click();
-      delay(5000);
-    }
+  @BeforeMethod
+  public void construct() {
+    page = new FlightListPage(driver);
+  }
 
     //TC01: Huỷ chọn tất cả hãng bay và refresh kiểm tra lưu thông tin
     @Test
     public void TC01_DeselectAirline() {
       page.deselectAllAirline();
       driver.navigate().refresh();
-      delay(5000);
     }
 
     //TC02: Kiểm tra không chọn hãng bay có trả về danh sách vé không
@@ -59,7 +58,7 @@ public class F12_FilterAirlines extends BaseTest{
       }
     }
 
-    // TC03: Filter danh sách theo chuyến bay 3 chặng
+    // TC03: So sánh tên hãng bay với các chuyến bay
     @Test
     public void TC3_CompareAirPlane() throws InterruptedException {
       page.deselectAllAirline();
@@ -68,8 +67,6 @@ public class F12_FilterAirlines extends BaseTest{
       for (WebElement ticket : page.getFlightAirline()) {
         String ticketAirline = ticket.getText().split("\n")[0].trim(); 
         System.out.println("Tên hãng bay trong ticket list: " + ticketAirline);
-
-        
         Assert.assertEquals(ticketAirline, airlineName, "Hãng bay không khớp");
       }
     }

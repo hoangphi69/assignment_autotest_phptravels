@@ -1,8 +1,9 @@
 package pages;
 
 import java.time.Duration;
-import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.openqa.selenium.By;
@@ -18,10 +19,17 @@ public class HotelListPage {
   private WebDriverWait wait;
   private int svgCount;
 
+  // Component danh sách khách sạn
+  public By HOTEL_LIST = By.cssSelector("ul.HotelsData.list-unstyled");
+
+  public By HOTEL_ITEM = By.cssSelector("li.card--item");
+
+  public By HOTEL_NAME = By.cssSelector("h5");
+
   // Component tìm kiếm danh sách theo tên
   public By SEARCH_NAME_INPUT = By.xpath("/html/body/main/section/div[2]/div/div[1]/div/div[1]/div[2]/div/input");
 
-  //Component đánh giá sao
+  //Component filter rating
   public By RATING = By.xpath("/html/body/main/section/div[2]/div/div[1]/div/div[2]/div[1]/div[1]");
   public By RATING_LIST = By.xpath("/html/body/main/section/div[2]/div/div[1]/div/div[2]/div[1]/div[2]/div/ul");
   public By RATING_ALLSTAR = By.xpath("/html/body/main/section/div[2]/div/div[1]/div/div[2]/div[1]/div[2]/div/ul/li[1]");
@@ -29,15 +37,38 @@ public class HotelListPage {
   public By RATING_START_LABEL = By.className("form-check-label");
 
   // Component card khách sạn
-  public By HOTEL_CARD = By.xpath("/html/body/main/section/div[2]/div/div[2]/div/ul/li[1]/div");
-  public By HOTEL_CARD_DETAIL = By.xpath("/html/body/main/section/div[2]/div/div[2]/div/ul/li[1]/div/div/div/div[2]");
-  public By HOTEL_CARD_START_LABEL = By.xpath("/html/body/main/section/div[2]/div/div[2]/div/ul/li[1]/div/div/div/div[2]/div/div[1]/div");
+  public By HOTEL_ITEM_START_LABEL = By.cssSelector(".d-block.d-flex.justify-content-between.align-items-center.gap-2.mt-1.mb-4");
+
+  // Component thanh header page (thanh xanh)
+  public By HEADER = By.xpath("/html/body/main/section/div[1]/div[1]/div[2]");
+  public By HEADER_HOTEL_NUMBER = By.xpath("/html/body/main/section/div[1]/div[1]/div[2]/h4/span/small/strong");
 
   // Constructor
   public HotelListPage(WebDriver driver) {
     this.driver = driver;
     js = (JavascriptExecutor) driver;
     wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+  }
+
+  // Delay page
+  public void delay(long milliseconds) {
+    try {
+      Thread.sleep(milliseconds);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+  }
+
+  // Lấy danh sách các khách sạn
+  public List<WebElement> getHotels() {
+    WebElement list = wait.until(ExpectedConditions.visibilityOfElementLocated(HOTEL_LIST));
+    List<WebElement> hotels = list.findElements(HOTEL_ITEM);
+    return hotels;
+  }
+
+  // Lấy tên khách sạn
+  public String getHotelName(WebElement hotel) {
+    return hotel.findElement(HOTEL_NAME).getText();
   }
 
   // Thực hiện tìm kiếm khách sạn theo tên
@@ -47,43 +78,47 @@ public class HotelListPage {
     input.sendKeys(name);
   }
 
-  // Lấy thông số rating khách sạn
-  public int getHotelRating() {
-    WebElement hotelCard = driver.findElement(HOTEL_CARD);
-    WebElement startLabel = hotelCard.findElement(HOTEL_CARD_START_LABEL);
-    List<WebElement> svgElement = startLabel.findElements(By.tagName("svg"));
-    int ratingHotel = svgElement.size();
-    System.out.println("Rating khách sạn: " + ratingHotel);
-    return ratingHotel;
-  } 
+  // Lấy số lượng khách sạn trên page
+  public int getHotelNumber() {
+    WebElement header = driver.findElement(HEADER);
+    WebElement hotelNumber = header.findElement(HEADER_HOTEL_NUMBER);
+    String hotelNumberText = hotelNumber.getText().trim();
+    if (hotelNumberText.isEmpty()) {
+      throw new IllegalStateException("Không tìm thấy số lượng khách sạn trong header!");
+  }
+  
+  try {
+      return Integer.parseInt(hotelNumberText);
+  } catch (NumberFormatException e) {
+      throw new NumberFormatException("Dữ liệu số khách sạn không hợp lệ: " + hotelNumberText);
+  }
+  }
 
-  // các chuyến bay
-  public List<WebElement> getHotelList() {
-    if (driver.findElements(HOTEL_CARD).isEmpty()) {
-      System.out.println("Không tìm thấy FLIGHT_CARD.");
-      return Collections.emptyList();
+  // Lập danh sách lấy số lượng khách sạn và số lượng sao trong khách sạn
+  public Map<WebElement, Integer> getHotelsWithStartsList() {
+    WebElement hotelList = driver.findElement(HOTEL_LIST);
+    List<WebElement> hotelItems = hotelList.findElements(HOTEL_ITEM);
+
+    Map<WebElement, Integer> hotelMapValue = new LinkedHashMap<>();
+
+    // duyệt từng card hotel trong danh sách card hotel
+    for (int i = 0; i < hotelItems.size(); i++) {
+      WebElement hotelItem = hotelItems.get(i);
+      WebElement hotelDetail = hotelItem.findElement(HOTEL_ITEM_START_LABEL);
+      List<WebElement> hotelRating = hotelDetail.findElements(By.tagName("svg"));
+      
+      hotelMapValue.put(hotelItem, hotelRating.size());
+      System.out.println(getHotelName(hotelItem) + (i+1) + ":" + hotelRating.size());
     }
-    WebElement hotel_card = driver.findElement(HOTEL_CARD);
+    return hotelMapValue;
+  }
 
-    if (hotel_card.findElements(HOTEL_CARD_DETAIL).isEmpty()) {
-      System.out.println("Không tìm thấy FLIGHT_CARD_DETAIL.");
-      return Collections.emptyList();
-    }
-    WebElement hotel_detail = hotel_card.findElement(HOTEL_CARD_DETAIL);
-
-    if (hotel_detail.findElements(HOTEL_CARD_START_LABEL).isEmpty()) {
-      System.out.println("Không tìm thấy PLANE_CARD.");
-      return Collections.emptyList();
-    }
-    WebElement start_label = hotel_detail.findElement(HOTEL_CARD_START_LABEL);
-
-    List<WebElement> starts = start_label.findElements(By.tagName("svg"));
-    if (starts.isEmpty()) {
-      System.out.println("Không tìm thấy chuyến bay nào.");
-      return Collections.emptyList(); 
-    }
-
-    return starts;
+  // Chọn hiển thị toàn bộ đánh giá
+  public void getAllRating() {
+    WebElement ratingCard = driver.findElement(RATING_LIST);
+    WebElement ratingList = ratingCard.findElement(RATING_LIST);
+    WebElement ratingAllStart = ratingList.findElement(RATING_ALLSTAR);
+    ratingAllStart.click();
   }
 
   // Chọn random 1 đánh giá
@@ -107,11 +142,13 @@ public class HotelListPage {
       WebElement startLabel = selectedLi.findElement(RATING_START_LABEL);
       List<WebElement> svgElement = startLabel.findElements(By.tagName("svg"));
       int svgCount = svgElement.size();
-      System.out.println("Số lượng thẻ SVG: " + svgCount);
+      System.out.println("Số sao Rating: " + svgCount);
+
+      return svgCount;
     } else {
       System.out.println("Không tìm thấy thẻ nào.");
+      return -1;
     }
-    return svgCount;
   }
 
   public void scrollToTop() {
