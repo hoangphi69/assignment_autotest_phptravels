@@ -1,52 +1,77 @@
 {
   "TC01": {
-    "way": "oneway",
-    "type": "economy",
-    "from": "HAN - Noi Bai International Airport",
-    "to": "NYC - All Airports",
-    "date": "21-03-2025",
-    "adults": "1",
-    "children": "0",
-    "infants": "0"
+    "input": {
+      "way": "oneway",
+      "type": "economy",
+      "from": "HAN - Noi Bai International Airport",
+      "to": "NYC - All Airports",
+      "date": "21-03-2025",
+      "adults": "1",
+      "children": "0",
+      "infants": "0"
+    },
+    "output": {
+      "title": "Flights Result"
+    }
   },
   "TC02": {
-    "way": "oneway",
-    "type": "economy",
-    "from": "",
-    "to": "NYC - All Airports",
-    "date": "21-03-2025",
-    "adults": "1",
-    "children": "0",
-    "infants": "0"
+    "input": {
+      "way": "oneway",
+      "type": "economy",
+      "from": "",
+      "to": "NYC - All Airports",
+      "date": "21-03-2025",
+      "adults": "1",
+      "children": "0",
+      "infants": "0"
+    },
+    "output": {
+      "message": "flying from"
+    }
   },
   "TC03": {
-    "way": "oneway",
-    "type": "economy",
-    "from": "HAN - Noi Bai International Airport",
-    "to": "",
-    "date": "21-03-2025",
-    "adults": "1",
-    "children": "0",
-    "infants": "0"
+    "input": {
+      "way": "oneway",
+      "type": "economy",
+      "from": "HAN - Noi Bai International Airport",
+      "to": "",
+      "date": "21-03-2025",
+      "adults": "1",
+      "children": "0",
+      "infants": "0"
+    },
+    "output": {
+      "message": "destination to"
+    }
   },
   "TC04": {
-    "way": "oneway",
-    "type": "economy",
-    "from": "HAN - Noi Bai International Airport",
-    "to": "NYC - All Airports",
-    "date": "21-03-2024",
-    "adults": "1",
-    "children": "0",
-    "infants": "0"
+    "input": {
+      "way": "oneway",
+      "type": "economy",
+      "from": "HAN - Noi Bai International Airport",
+      "to": "NYC - All Airports",
+      "date": "21-03-2024",
+      "adults": "1",
+      "children": "0",
+      "infants": "0"
+    },
+    "output": {
+      "message": "date"
+    }
   },
   "TC05": {
-    "way": "oneway",
-    "type": "economy",
-    "from": "HAN - Noi Bai International Airport",
-    "to": "NYC - All Airports",
-    "date": "21-03-2025",
-    "adults": "999",
-    "children": "-111",
-    "infants": "-999"
+    "input": {
+      "way": "oneway",
+      "type": "economy",
+      "from": "HAN - Noi Bai International Airport",
+      "to": "NYC - All Airports",
+      "date": "21-03-2025",
+      "adults": "999",
+      "children": "-111",
+      "infants": "-999"
+    },
+    "output": {
+      "message": "travellers"
+    }
   }
 }

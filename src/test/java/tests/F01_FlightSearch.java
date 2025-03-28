@@ -14,28 +14,37 @@ import pages.Homepage;
 
 public class F01_FlightSearch extends BaseTest {
   private String[] inputs;
+  private String output;
   private Homepage page;
 
   // TC01: Nhập thông tin hợp lệ
   @Test
   public void TC01_ValidSearch() {
-    inputs = getTestData("TC01");
+    inputs = getInputs("TC01");
+    output = getOutput("TC01").get("title").asText();
     page = new Homepage(driver);
     page.performFlightSearch(inputs);
+
+    delay(1000);
+
+    // Kiểm tra tiêu đề trang được điều hướng
+    String actual = driver.getTitle();
+    String expected = output;
+    Assert.assertEquals(actual, expected, "Tiêu đề trang sai");
   }
 
   // TC02: Bỏ trống điểm xuất phát
   @Test
   public void TC02_SearchWithoutDeparture() {
-    inputs = getTestData("TC02");
+    inputs = getInputs("TC02");
+    output = getOutput("TC02").get("message").asText();
     page = new Homepage(driver);
     page.performFlightSearch(inputs);
 
     // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
     String actual = alert.getText();
-    String expected = "flying from";
-    System.out.println("TC02 thông báo" + actual);
+    String expected = output;
     Assert.assertTrue(actual.toLowerCase().contains(expected), "Thông báo sai: "
         + actual);
   }
@@ -43,15 +52,15 @@ public class F01_FlightSearch extends BaseTest {
   // TC03: Bỏ trống điểm đến
   @Test
   public void TC03_SearchWithoutDestination() {
-    inputs = getTestData("TC03");
+    inputs = getInputs("TC03");
+    output = getOutput("TC03").get("message").asText();
     page = new Homepage(driver);
     page.performFlightSearch(inputs);
 
     // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
     String actual = alert.getText();
-    String expected = "destination to";
-    System.out.println("TC03 thông báo" + actual);
+    String expected = output;
     Assert.assertTrue(actual.toLowerCase().contains(expected), "Thông báo sai: "
         + actual);
   }
@@ -59,15 +68,15 @@ public class F01_FlightSearch extends BaseTest {
   // TC04: Ngày trong quá khứ
   @Test
   public void TC04_SearchWithPastDate() {
-    inputs = getTestData("TC04");
+    inputs = getInputs("TC04");
+    output = getOutput("TC04").get("message").asText();
     page = new Homepage(driver);
     page.performFlightSearch(inputs);
 
     // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
     String actual = alert.getText();
-    String expected = "date";
-    System.out.println("TC04 thông báo" + actual);
+    String expected = output;
     Assert.assertTrue(actual.toLowerCase().contains(expected), "Thông báo sai: "
         + actual);
   }
@@ -75,21 +84,21 @@ public class F01_FlightSearch extends BaseTest {
   // TC05: Số lượng hành khách không hợp lệ
   @Test
   public void TC05_SearchWithInvalidPassengerNumber() {
-    inputs = getTestData("TC05");
+    inputs = getInputs("TC05");
+    output = getOutput("TC05").get("message").asText();
     page = new Homepage(driver);
     page.performFlightSearch(inputs);
 
     // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
     String actual = alert.getText();
-    String expected = "travellers";
-    System.out.println("TC05 thông báo" + actual);
+    String expected = output;
     Assert.assertTrue(actual.toLowerCase().contains(expected), "Thông báo sai: "
         + actual);
   }
 
-  public String[] getTestData(String key) {
-    JsonNode data = JsonReader.getTestData("flight-search-test-data.json", key);
+  public String[] getInputs(String key) {
+    JsonNode data = JsonReader.getTestData("flight-search-test-data.json", key).get("input");
     return new String[] {
         data.get("way").asText(),
         data.get("type").asText(),
@@ -100,6 +109,10 @@ public class F01_FlightSearch extends BaseTest {
         data.get("children").asText(),
         data.get("infants").asText()
     };
+  }
+
+  public JsonNode getOutput(String key) {
+    return JsonReader.getTestData("flight-search-test-data.json", key).get("output");
   }
 
   @BeforeMethod

@@ -20,75 +20,77 @@ public class F02_HotelSearch extends BaseTest {
   // TC01: Tham số truyền vào hợp lệ
   @Test
   public void TC01_ValidHotel() {
-    inputs = getTestData("TC01");
+    inputs = getInputs("TC01");
+    String expected = getOutput("TC01").get("title").asText();
     page.performHotelSearch(inputs);
+
+    delay(1000);
+    String actual = driver.getTitle();
+    Assert.assertEquals(actual, expected, "Tiêu đề trang sai");
   }
 
   // TC02: Không nhập địa điểm
   @Test
   public void TC02_SearchWithoutLocation() {
-    inputs = getTestData("TC02");
+    inputs = getInputs("TC02");
+    String expected = getOutput("TC02").get("message").asText();
     page.performHotelSearch(inputs);
 
-    // Kiểm tra thông báo từ input
     WebElement location = driver.findElement(page.HOTEL_CITY_HIDDEN_SELECT);
     String actual = (String) js.executeScript("return arguments[0].validationMessage;", location);
-    String expected = "Please select an item in the list.";
     Assert.assertEquals(actual, expected, "Thông báo sai");
   }
 
   // TC03: Nhập thời gian trả phòng sớm hơn thời gian nhận phòng
   @Test
   public void TC03_CheckinBeforeCheckout() {
-    inputs = getTestData("TC03");
+    inputs = getInputs("TC03");
+    String expected = getOutput("TC03").get("message").asText();
     page.performHotelSearch(inputs);
 
-    // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
     String actual = alert.getText();
-    String expected = "date";
-    Assert.assertTrue(actual.toLowerCase().contains(expected), "Thông báo sai: "
-        + actual);
+    Assert.assertTrue(actual.toLowerCase().contains(expected), "Thông báo sai: " + actual);
   }
 
   // TC04: Nhập số lượng khách tối đa
   @Test
   public void TC04_ExceedGuestLimit() {
-    inputs = getTestData("TC04");
+    inputs = getInputs("TC04");
+    String expected = getOutput("TC04").get("message").asText();
     page.performHotelSearch(inputs);
 
-    // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
     String actual = alert.getText();
-    String expected = "travellers";
-    Assert.assertTrue(actual.toLowerCase().contains(expected), "Thông báo sai: "
-        + actual);
+    Assert.assertTrue(actual.toLowerCase().contains(expected), "Thông báo sai: " + actual);
   }
 
   // TC05: Nhập thời gian check in trước hiện tại
   @Test
   public void TC05_PastCheckinDate() {
-    inputs = getTestData("TC05");
+    inputs = getInputs("TC05");
+    String expected = getOutput("TC05").get("message").asText();
     page.performHotelSearch(inputs);
 
-    // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
     String actual = alert.getText();
-    String expected = "date";
-    Assert.assertTrue(actual.toLowerCase().contains(expected), "Thông báo sai: "
-        + actual);
+    Assert.assertTrue(actual.toLowerCase().contains(expected), "Thông báo sai: " + actual);
   }
 
-  public String[] getTestData(String key) {
-    JsonNode data = JsonReader.getTestData("hotel-search-test-data.json", key);
+  public String[] getInputs(String key) {
+    JsonNode data = JsonReader.getTestData("hotel-search-test-data.json", key).get("input");
     return new String[] {
         data.get("city").asText(),
         data.get("checkin").asText(),
         data.get("checkout").asText(),
         data.get("rooms").asText(),
         data.get("adults").asText(),
-        data.get("children").asText(),
+        data.get("children").asText()
     };
+  }
+
+  public JsonNode getOutput(String key) {
+    return JsonReader.getTestData("hotel-search-test-data.json", key).get("output");
   }
 
   @BeforeMethod

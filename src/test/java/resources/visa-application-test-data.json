@@ -1,32 +1,62 @@
 {
   "TC01": {
-    "from": "Viet Nam",
-    "to": "Japan",
-    "date": "25-04-2025"
+    "input": {
+      "from": "Viet Nam",
+      "to": "Japan",
+      "date": "25-04-2025"
+    },
+    "output": {
+      "title": "Visa"
+    }
   },
   "TC02": {
-    "from": "Viet Nam",
-    "to": "Japan",
-    "date": "invalid-date"
+    "input": {
+      "from": "Viet Nam",
+      "to": "Japan",
+      "date": "invalid-date"
+    },
+    "output": {
+      "message": "invalid"
+    }
   },
   "TC03": {
-    "from": "Viet Nam",
-    "to": "Japan",
-    "date": ""
+    "input": {
+      "from": "Viet Nam",
+      "to": "Japan",
+      "date": ""
+    },
+    "output": {
+      "message": "empty"
+    }
   },
   "TC04": {
-    "from": "Viet Nam",
-    "to": "",
-    "date": "25-04-2025"
+    "input": {
+      "from": "Viet Nam",
+      "to": "",
+      "date": "25-04-2025"
+    },
+    "output": {
+      "message": "Please select an item in the list."
+    }
   },
   "TC05": {
-    "from": "",
-    "to": "Japan",
-    "date": "25-04-2025"
+    "input": {
+      "from": "",
+      "to": "Japan",
+      "date": "25-04-2025"
+    },
+    "output": {
+      "message": "Please select an item in the list."
+    }
   },
   "TC06": {
-    "from": "Viet Nam",
-    "to": "Japan",
-    "date": "01-01-2020"
+    "input": {
+      "from": "Viet Nam",
+      "to": "Japan",
+      "date": "01-01-2020"
+    },
+    "output": {
+      "message": "past"
+    }
   }
 }

@@ -156,7 +156,6 @@ public class Homepage {
   // Component chuyến bay nổi bật
   public By FEATURED_FLIGHT_1 = By
       .xpath("/html/body/main/div[2]/div/section/div[2]/div/div/div[1]/div/div/div/div/div[1]/a");
-  
 
   // Constructor
   public Homepage(WebDriver driver) {
@@ -403,7 +402,7 @@ public class Homepage {
 
     WebElement locationBeginInput = driver.findElement(CAR_FROM_INPUT);
     locationBeginInput.sendKeys(city);
-    delay(300);
+    delay(500);
     locationBeginInput.sendKeys(Keys.ENTER);
   }
 

@@ -1,52 +1,77 @@
 {
   "TC01": {
-    "from": "Tokyo",
-    "to": "Tokyo",
-    "pickupDate": "25-04-2025",
-    "pickupTime": "03:00",
-    "dropoffDate": "05-05-2025",
-    "dropoffTime": "03:00",
-    "adults": "1",
-    "children": "1"
+    "input": {
+      "from": "Tokyo",
+      "to": "Tokyo",
+      "pickupDate": "25-04-2025",
+      "pickupTime": "03:00",
+      "dropoffDate": "05-05-2025",
+      "dropoffTime": "03:00",
+      "adults": "1",
+      "children": "1"
+    },
+    "output": {
+      "title": "Car - TYO"
+    }
   },
   "TC02": {
-    "from": "GitGud",
-    "to": "Tokyo",
-    "pickupDate": "25-04-2025",
-    "pickupTime": "03:00",
-    "dropoffDate": "05-05-2025",
-    "dropoffTime": "03:00",
-    "adults": "1",
-    "children": "1"
+    "input": {
+      "from": "GitGud",
+      "to": "Tokyo",
+      "pickupDate": "25-04-2025",
+      "pickupTime": "03:00",
+      "dropoffDate": "05-05-2025",
+      "dropoffTime": "03:00",
+      "adults": "1",
+      "children": "1"
+    },
+    "output": {
+      "message": "invalid"
+    }
   },
   "TC03": {
-    "from": "",
-    "to": "Tokyo",
-    "pickupDate": "25-04-2025",
-    "pickupTime": "03:00",
-    "dropoffDate": "05-05-2025",
-    "dropoffTime": "03:00",
-    "adults": "1",
-    "children": "1"
+    "input": {
+      "from": "",
+      "to": "Tokyo",
+      "pickupDate": "25-04-2025",
+      "pickupTime": "03:00",
+      "dropoffDate": "05-05-2025",
+      "dropoffTime": "03:00",
+      "adults": "1",
+      "children": "1"
+    },
+    "output": {
+      "message": "empty"
+    }
   },
   "TC04": {
-    "from": "Tokyo",
-    "to": "GitGud",
-    "pickupDate": "25-04-2025",
-    "pickupTime": "03:00",
-    "dropoffDate": "05-05-2025",
-    "dropoffTime": "03:00",
-    "adults": "1",
-    "children": "1"
+    "input": {
+      "from": "Tokyo",
+      "to": "GitGud",
+      "pickupDate": "25-04-2025",
+      "pickupTime": "03:00",
+      "dropoffDate": "05-05-2025",
+      "dropoffTime": "03:00",
+      "adults": "1",
+      "children": "1"
+    },
+    "output": {
+      "message": "invalid"
+    }
   },
   "TC05": {
-    "from": "Tokyo",
-    "to": "",
-    "pickupDate": "25-04-2025",
-    "pickupTime": "03:00",
-    "dropoffDate": "05-05-2025",
-    "dropoffTime": "03:00",
-    "adults": "1",
-    "children": "1"
+    "input": {
+      "from": "Tokyo",
+      "to": "",
+      "pickupDate": "25-04-2025",
+      "pickupTime": "03:00",
+      "dropoffDate": "05-05-2025",
+      "dropoffTime": "03:00",
+      "adults": "1",
+      "children": "1"
+    },
+    "output": {
+      "message": "invalid"
+    }
   }
 }

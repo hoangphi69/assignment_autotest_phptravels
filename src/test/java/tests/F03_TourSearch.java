@@ -20,70 +20,75 @@ public class F03_TourSearch extends BaseTest {
   // TC01: nhập đúng trường thông tin
   @Test
   public void TC01_Correct() {
-    inputs = getTestData("TC01");
+    inputs = getInputs("TC01");
+    String expected = getOutput("TC01").get("title").asText();
     page.performTourSearch(inputs);
+
+    delay(1000);
+    String actual = driver.getTitle();
+    Assert.assertEquals(actual, expected, "Tiêu đề trang sai");
   }
 
   // TC02: Nhập sai địa điểm
   @Test
   public void TC02_IncorrectLocation() {
-    inputs = getTestData("TC02");
+    inputs = getInputs("TC02");
+    String expected = getOutput("TC02").get("message").asText();
     page.performTourSearch(inputs);
 
-    // Kiểm tra thông báo từ input
     WebElement location = driver.findElement(page.TOUR_CITY_HIDDEN_SELECT);
     String actual = (String) js.executeScript("return arguments[0].validationMessage;", location);
-    String expected = "Please select an item in the list.";
     Assert.assertEquals(actual, expected, "Thông báo sai");
   }
 
   // TC03: Không nhập địa điểm
   @Test
   public void TC03_LocationBlank() {
-    inputs = getTestData("TC03");
+    inputs = getInputs("TC03");
+    String expected = getOutput("TC03").get("message").asText();
     page.performTourSearch(inputs);
 
-    // Kiểm tra thông báo từ input
     WebElement location = driver.findElement(page.TOUR_CITY_HIDDEN_SELECT);
     String actual = (String) js.executeScript("return arguments[0].validationMessage;", location);
-    String expected = "Please select an item in the list.";
     Assert.assertEquals(actual, expected, "Thông báo sai");
   }
 
   // TC04: Nhập thời gian quá khứ
   @Test
   public void TC04_DateInThePast() {
-    inputs = getTestData("TC04");
+    inputs = getInputs("TC04");
+    String expected = getOutput("TC04").get("message").asText();
     page.performTourSearch(inputs);
 
-    // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
     String actual = alert.getText();
-    String expected = "past";
     Assert.assertTrue(actual.contains(expected), "Thông báo sai: " + actual);
   }
 
   // TC05: Nhập số lượng hành khách là '0'
   @Test
   public void TC05_ZeroTraveller() {
-    inputs = getTestData("TC05");
+    inputs = getInputs("TC05");
+    String expected = getOutput("TC05").get("message").asText();
     page.performTourSearch(inputs);
 
-    // Kiểm tra thông báo từ alert
     Alert alert = driver.switchTo().alert();
     String actual = alert.getText();
-    String expected = "travellers";
     Assert.assertTrue(actual.contains(expected), "Thông báo sai: " + actual);
   }
 
-  public String[] getTestData(String key) {
-    JsonNode data = JsonReader.getTestData("tour-search-test-data.json", key);
+  public String[] getInputs(String key) {
+    JsonNode data = JsonReader.getTestData("tour-search-test-data.json", key).get("input");
     return new String[] {
         data.get("city").asText(),
         data.get("date").asText(),
         data.get("adults").asText(),
         data.get("children").asText()
     };
+  }
+
+  public JsonNode getOutput(String key) {
+    return JsonReader.getTestData("tour-search-test-data.json", key).get("output");
   }
 
   @BeforeMethod

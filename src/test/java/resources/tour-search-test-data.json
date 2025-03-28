@@ -1,32 +1,57 @@
 {
   "TC01": {
-    "city": "Tokyo",
-    "date": "25-04-2025",
-    "adults": "1",
-    "children": "1"
+    "input": {
+      "city": "Tokyo",
+      "date": "25-04-2025",
+      "adults": "1",
+      "children": "1"
+    },
+    "output": {
+      "title": "Tour - Tokyo"
+    }
   },
   "TC02": {
-    "city": "GitGud",
-    "date": "25-04-2025",
-    "adults": "1",
-    "children": "1"
+    "input": {
+      "city": "GitGud",
+      "date": "25-04-2025",
+      "adults": "1",
+      "children": "1"
+    },
+    "output": {
+      "message": "Please select an item in the list."
+    }
   },
   "TC03": {
-    "city": "",
-    "date": "25-04-2025",
-    "adults": "1",
-    "children": "1"
+    "input": {
+      "city": "",
+      "date": "25-04-2025",
+      "adults": "1",
+      "children": "1"
+    },
+    "output": {
+      "message": "Please select an item in the list."
+    }
   },
   "TC04": {
-    "city": "Tokyo",
-    "date": "25-04-2024",
-    "adults": "1",
-    "children": "1"
+    "input": {
+      "city": "Tokyo",
+      "date": "25-04-2024",
+      "adults": "1",
+      "children": "1"
+    },
+    "output": {
+      "message": "past"
+    }
   },
   "TC05": {
-    "city": "Tokyo",
-    "date": "25-04-2025",
-    "adults": "0",
-    "children": "-1"
+    "input": {
+      "city": "Tokyo",
+      "date": "25-04-2025",
+      "adults": "0",
+      "children": "-1"
+    },
+    "output": {
+      "message": "travellers"
+    }
   }
 }

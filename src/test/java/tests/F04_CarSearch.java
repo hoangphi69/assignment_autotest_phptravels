@@ -19,19 +19,23 @@ public class F04_CarSearch extends BaseTest {
   // TC01: Nhập chính xác trường thông tin
   @Test
   public void TC01_ValidInput() {
-    inputs = getTestData("TC01");
+    inputs = getInputs("TC01");
+    String expected = getOutput("TC01").get("title").asText();
     page.performCarSearch(inputs);
+
+    delay(1000);
+    String actual = driver.getTitle();
+    Assert.assertEquals(actual, expected, "Tiêu đề trang sai");
   }
 
   // TC02: Nhập sai địa điểm đón
   @Test
   public void TC02_IncorrectLocation1() {
-    inputs = getTestData("TC02");
+    inputs = getInputs("TC02");
+    String expected = getOutput("TC02").get("message").asText();
     page.performCarSearch(inputs);
 
-    // Kiểm tra thông báo alert
     Alert alert = driver.switchTo().alert();
-    String expected = "invalid";
     String actual = alert.getText();
     Assert.assertTrue(actual.contains(expected), "Thông báo sai: " + actual);
   }
@@ -39,12 +43,11 @@ public class F04_CarSearch extends BaseTest {
   // TC03: Bỏ trống địa điểm đón
   @Test
   public void TC03_IncorrectLocation2() {
-    inputs = getTestData("TC03");
+    inputs = getInputs("TC03");
+    String expected = getOutput("TC03").get("message").asText();
     page.performCarSearch(inputs);
 
-    // Kiểm tra thông báo alert
     Alert alert = driver.switchTo().alert();
-    String expected = "empty";
     String actual = alert.getText();
     Assert.assertTrue(actual.contains(expected), "Thông báo sai: " + actual);
   }
@@ -52,12 +55,11 @@ public class F04_CarSearch extends BaseTest {
   // TC04: Nhập sai địa điểm trả khách
   @Test
   public void TC04_IncorrectLocation3() {
-    inputs = getTestData("TC04");
+    inputs = getInputs("TC04");
+    String expected = getOutput("TC04").get("message").asText();
     page.performCarSearch(inputs);
 
-    // Kiểm tra thông báo alert
     Alert alert = driver.switchTo().alert();
-    String expected = "invalid";
     String actual = alert.getText();
     Assert.assertTrue(actual.contains(expected), "Thông báo sai: " + actual);
   }
@@ -65,18 +67,17 @@ public class F04_CarSearch extends BaseTest {
   // TC05: Bỏ trống địa điểm trả khách
   @Test
   public void TC05_IncorrectLocation4() {
-    inputs = getTestData("TC05");
+    inputs = getInputs("TC05");
+    String expected = getOutput("TC05").get("message").asText();
     page.performCarSearch(inputs);
 
-    // Kiểm tra thông báo alert
     Alert alert = driver.switchTo().alert();
-    String expected = "invalid";
     String actual = alert.getText();
     Assert.assertTrue(actual.contains(expected), "Thông báo sai: " + actual);
   }
 
-  public String[] getTestData(String key) {
-    JsonNode data = JsonReader.getTestData("car-search-test-data.json", key);
+  public String[] getInputs(String key) {
+    JsonNode data = JsonReader.getTestData("car-search-test-data.json", key).get("input");
     return new String[] {
         data.get("from").asText(),
         data.get("to").asText(),
@@ -87,6 +88,10 @@ public class F04_CarSearch extends BaseTest {
         data.get("adults").asText(),
         data.get("children").asText()
     };
+  }
+
+  public JsonNode getOutput(String key) {
+    return JsonReader.getTestData("car-search-test-data.json", key).get("output");
   }
 
   @BeforeMethod
