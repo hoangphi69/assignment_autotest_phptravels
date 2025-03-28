@@ -13,10 +13,10 @@ import base.BaseTest;
 import pages.Homepage;
 import pages.HotelListPage;
 
-public class F17_FilterRating extends BaseTest{
-    private HotelListPage page;
+public class F17_FilterRating extends BaseTest {
+  private HotelListPage page;
 
-    @BeforeClass
+  @BeforeClass
   public void navigateToPage() {
     Homepage homepage = new Homepage(driver);
     homepage.performHotelSearch("Dubai", "01-04-2025", "05-04-2025", "1", "1", "0");
@@ -35,31 +35,30 @@ public class F17_FilterRating extends BaseTest{
     delay(1000);
   }
 
-    // TC01: So sánh số sao từ filter với số sao rating khách sạn
-    @Test 
-    public void TC_CompareRating() throws InterruptedException {
-      int expected = page.selectRandomStarRating();
-      Map<WebElement, Integer> hotelValue = page.getHotelsWithStartsList();
-      for (Map.Entry<WebElement, Integer> entry : hotelValue.entrySet()) {
-        int actual = entry.getValue();
-        Assert.assertEquals(actual, expected, "Số sao giữa filter và số sao của khách sạn không bằng nhau" );
-      }
+  // TC01: So sánh số sao từ filter với số sao rating khách sạn
+  @Test
+  public void TC_CompareRating() throws InterruptedException {
+    int expected = page.selectRandomStarRating();
+    Map<WebElement, Integer> hotelValue = page.getHotelsWithStartsList();
+    for (Map.Entry<WebElement, Integer> entry : hotelValue.entrySet()) {
+      int actual = entry.getValue();
+      Assert.assertEquals(actual, expected, "Số sao giữa filter và số sao của khách sạn không bằng nhau");
     }
+  }
 
-    // TC02: So sánh số lượng khách sạn hiển thị trên page với thực tế
-    @Test 
-    public void TC_CompareHotelNumber() throws InterruptedException {
-      page.selectRandomStarRating();
-      int expected = page.getHotelNumber();
-      
-      Map<WebElement, Integer> hotelMap = page.getHotelsWithStartsList(); // Lấy danh sách khách sạn thực tế
+  // TC02: So sánh số lượng khách sạn hiển thị trên page với thực tế
+  @Test
+  public void TC_CompareHotelNumber() throws InterruptedException {
+    page.selectRandomStarRating();
+    int expected = page.getHotelNumber();
+
+    Map<WebElement, Integer> hotelMap = page.getHotelsWithStartsList(); // Lấy danh sách khách sạn thực tế
     int actualHotelCount = hotelMap.size(); // Đếm số khách sạn lấy từ danh sách
 
     System.out.println("Số khách sạn từ header (expected): " + expected);
     System.out.println("Số khách sạn từ danh sách thực tế (actual): " + actualHotelCount);
 
     // So sánh
-    Assert.assertEquals(actualHotelCount, expected, "Số lượng khách sạn không khớp từ page không khớp với thực tế!"); 
+    Assert.assertEquals(actualHotelCount, expected, "Số lượng khách sạn không khớp từ page không khớp với thực tế!");
   }
 }
-
