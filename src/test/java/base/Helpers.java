@@ -1,6 +1,11 @@
 package base;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+
+import org.openqa.selenium.WebElement;
 
 public class Helpers {
   // Giá trị quy đổi tiền tệ
@@ -30,9 +35,23 @@ public class Helpers {
     return String.format("%s %.2f", toCurrency, convertedAmount);
   }
 
+  // Format string sang dạng kebab
   public static String toKebabCase(String input) {
     String kebab = input.replaceAll("[_\\s]+", "-");
     kebab = kebab.replaceAll("([a-z])([A-Z])", "$1-$2");
     return kebab.toLowerCase();
+  }
+
+  // Lấy ngẫu nhiên một số element trong danh sách
+  public static List<WebElement> selectRandomElements(List<WebElement> elements, int count) {
+    if (elements == null || elements.isEmpty() || count <= 0) {
+      return Collections.emptyList();
+    }
+
+    count = Math.min(count, elements.size());
+    List<WebElement> copy = new ArrayList<>(elements);
+    Collections.shuffle(copy);
+
+    return copy.subList(0, count);
   }
 }
