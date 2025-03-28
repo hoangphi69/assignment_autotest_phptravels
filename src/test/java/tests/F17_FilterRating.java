@@ -20,7 +20,7 @@ public class F17_FilterRating extends BaseTest{
     private HotelListPage page;
     private int[] inputs;
 
-    @BeforeClass
+  @BeforeClass
   public void navigateToPage() {
     Homepage homepage = new Homepage(driver);
     homepage.performHotelSearch("Dubai", "01-04-2025", "05-04-2025", "1", "1", "0");
@@ -109,7 +109,7 @@ public class F17_FilterRating extends BaseTest{
   @Test 
   public void TC06_CompareHotelAllStar() {
     page.selectAllStar();
-    int expected = page.getHotelNumber();
+    int expected = page.getHotelCount();
     
     Map<WebElement, Integer> hotelMap = page.getHotelsWithStarsList(); // Lấy danh sách khách sạn thực tế
     int actualHotelCount = hotelMap.size(); // Đếm số khách sạn lấy từ danh sách
@@ -118,7 +118,7 @@ public class F17_FilterRating extends BaseTest{
     System.out.println("Số khách sạn từ danh sách thực tế (actual): " + actualHotelCount);
     
     // So sánh
-    Assert.assertEquals(actualHotelCount, expected, "Số lượng khách sạn không khớp từ page không khớp với thực tế!"); 
+    Assert.assertEquals(actualHotelCount, expected, "Số lượng khách sạn không khớp từ page không khớp với thực tế!");
   }
 
   // TC07: So sánh số lượng khách sạn hiển thị sau khi đổi lọc đánh giá sao của AllStar
@@ -137,4 +137,3 @@ public class F17_FilterRating extends BaseTest{
   }
 
 }
-
