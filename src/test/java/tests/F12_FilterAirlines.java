@@ -57,7 +57,6 @@ public class F12_FilterAirlines extends BaseTest{
           Assert.assertEquals(ticketAirline, null, "Danh sách hãng bay không hợp lệ");
         }
       }
-      
     }
 
     // TC03: Filter danh sách theo chuyến bay 3 chặng

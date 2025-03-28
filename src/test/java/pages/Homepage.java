@@ -38,7 +38,7 @@ public class Homepage {
 
   public By FLIGHT_SEARCH_BUTTON = By.id("flights-search");
 
-  // Component tìm kiếm chuyến bay
+  // Component tìm kiếm khách sạn
   public By HOTEL_TAB = By.xpath("/html/body/main/div[1]/div[2]/div[2]/div/div/ul/li[2]/button");
 
   public By HOTEL_CITY_SELECT = By.id("select2-hotels_city-container");
@@ -156,6 +156,7 @@ public class Homepage {
   // Component chuyến bay nổi bật
   public By FEATURED_FLIGHT_1 = By
       .xpath("/html/body/main/div[2]/div/section/div[2]/div/div/div[1]/div/div/div/div/div[1]/a");
+  
 
   // Constructor
   public Homepage(WebDriver driver) {

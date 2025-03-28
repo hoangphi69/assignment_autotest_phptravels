@@ -6,7 +6,7 @@ import java.time.Duration;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,6 +18,8 @@ public class BaseTest {
   protected WebDriverWait wait;
   protected JavascriptExecutor js;
   protected final String BASE_URL = "https://phptravels.net/";
+
+  protected final String test_URL = "https://phptravels.net/hotels/dubai/30-03-2025/31-03-2025/1/2/0/US";
 
   public void delay(long milliseconds) {
     try {
@@ -37,9 +39,10 @@ public class BaseTest {
     System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
 
     // Khởi tạo trình duyệt
-    WebDriverManager.firefoxdriver().setup();
-    driver = new FirefoxDriver();
+    WebDriverManager.chromedriver().setup();
+    driver = new ChromeDriver();
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    // driver.get(BASE_URL);
     driver.get(BASE_URL);
     driver.manage().window().maximize();
 
