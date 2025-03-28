@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -43,6 +42,11 @@ public class HotelListPage {
       .xpath("/html/body/main/section/div[2]/div/div[1]/div/div[2]/div[1]/div[2]/div/ul/li[1]");
 
   public By RATING_SELECT = By.cssSelector("li.list-group-item.border-0.rounded-3.p-1.ng-scope");
+  public By RATING_STAR_LABEL = By.className("form-check-label");
+
+  // Component card khách sạn
+  public By HOTEL_ITEM_STAR_LABEL = By
+      .cssSelector(".d-block.d-flex.justify-content-between.align-items-center.gap-2.mt-1.mb-4");
 
   public By RATING_START_LABEL = By.className("form-check-label");
 
@@ -130,51 +134,49 @@ public class HotelListPage {
     // duyệt từng card hotel trong danh sách card hotel
     for (int i = 0; i < hotelItems.size(); i++) {
       WebElement hotelItem = hotelItems.get(i);
-      WebElement hotelDetail = hotelItem.findElement(HOTEL_ITEM_START_LABEL);
+      WebElement hotelDetail = hotelItem.findElement(HOTEL_ITEM_STAR_LABEL);
       List<WebElement> hotelRating = hotelDetail.findElements(By.tagName("svg"));
 
       hotelMapValue.put(hotelItem, hotelRating.size());
-      System.out.println(getHotelName(hotelItem) + (i + 1) + ":" + hotelRating.size());
     }
     return hotelMapValue;
   }
 
   // Chọn hiển thị toàn bộ đánh giá
-  public void getAllRating() {
+  public void selectAllStar() {
     WebElement ratingCard = driver.findElement(RATING_LIST);
     WebElement ratingList = ratingCard.findElement(RATING_LIST);
-    WebElement ratingAllStart = ratingList.findElement(RATING_ALLSTAR);
-    ratingAllStart.click();
+    WebElement ratingAllStar = ratingList.findElement(RATING_ALLSTAR);
+    ratingAllStar.click();
   }
 
   // Chọn random 1 đánh giá
-  public int selectRandomStarRating() {
+  public int selectStarRatingInFilter(int desiredStars) {
     // Lấy tất cả các radio button trong nhóm "starRating"
     WebElement ratingCard = driver.findElement(RATING_LIST);
     WebElement ratingList = ratingCard.findElement(RATING_LIST);
     js.executeScript("arguments[0].scrollIntoView({block: 'center'});", ratingList);
     List<WebElement> listItems = ratingList.findElements(RATING_SELECT);
-    delay(1000);
 
     // Kiểm tra danh sách có radio button không
     if (!listItems.isEmpty()) {
-      Random rand = new Random();
-      int randomIndex = rand.nextInt(listItems.size());
+      for (WebElement item : listItems) {
+          WebElement StarLabel = item.findElement(RATING_STAR_LABEL);
+          List<WebElement> svgElement = StarLabel.findElements(By.tagName("svg"));
+          int svgCount = svgElement.size(); // Đếm số lượng sao thực tế
 
-      WebElement selectedLi = listItems.get(randomIndex);
-      WebElement radioButton = selectedLi.findElement(By.cssSelector("input[type='radio']"));
-      radioButton.click();
-
-      WebElement startLabel = selectedLi.findElement(RATING_START_LABEL);
-      List<WebElement> svgElement = startLabel.findElements(By.tagName("svg"));
-      int svgCount = svgElement.size();
-      System.out.println("Số sao Rating: " + svgCount);
-
-      return svgCount;
-    } else {
+          if (svgCount == desiredStars) { // Nếu số sao trùng khớp với mong muốn
+              WebElement radioButton = item.findElement(By.cssSelector("input[type='radio']"));
+              radioButton.click();
+              System.out.println("Đã chọn mức sao: " + svgCount);
+              return svgCount;
+          }
+      }
+      System.out.println("Không tìm thấy mức sao phù hợp.");
+  } else {
       System.out.println("Không tìm thấy thẻ nào.");
-      return -1;
-    }
+  }
+  return -1; 
   }
 
   // Lấy giá vé min từ filter
