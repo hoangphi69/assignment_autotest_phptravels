@@ -123,13 +123,13 @@ public class HotelListPage {
   }
 
   // Chọn random 1 đánh giá
-  public int selectRandomStarRating() throws InterruptedException {
+  public int selectRandomStarRating() {
     // Lấy tất cả các radio button trong nhóm "starRating"
     WebElement ratingCard = driver.findElement(RATING_LIST);
     WebElement ratingList = ratingCard.findElement(RATING_LIST);
     js.executeScript("arguments[0].scrollIntoView({block: 'center'});", ratingList);
     List<WebElement> listItems = ratingList.findElements(RATING_SELECT);
-    Thread.sleep(1000);
+    delay(1000);
 
     // Kiểm tra danh sách có radio button không
     if (!listItems.isEmpty()) {
