@@ -17,7 +17,6 @@ public class HotelListPage {
   private WebDriver driver;
   private JavascriptExecutor js;
   private WebDriverWait wait;
-  private int svgCount;
 
   // Component danh sách khách sạn
   public By HOTEL_LIST = By.cssSelector("ul.HotelsData.list-unstyled");
@@ -29,15 +28,17 @@ public class HotelListPage {
   // Component tìm kiếm danh sách theo tên
   public By SEARCH_NAME_INPUT = By.xpath("/html/body/main/section/div[2]/div/div[1]/div/div[1]/div[2]/div/input");
 
-  //Component filter rating
+  // Component filter rating
   public By RATING = By.xpath("/html/body/main/section/div[2]/div/div[1]/div/div[2]/div[1]/div[1]");
   public By RATING_LIST = By.xpath("/html/body/main/section/div[2]/div/div[1]/div/div[2]/div[1]/div[2]/div/ul");
-  public By RATING_ALLSTAR = By.xpath("/html/body/main/section/div[2]/div/div[1]/div/div[2]/div[1]/div[2]/div/ul/li[1]");
+  public By RATING_ALLSTAR = By
+      .xpath("/html/body/main/section/div[2]/div/div[1]/div/div[2]/div[1]/div[2]/div/ul/li[1]");
   public By RATING_SELECT = By.cssSelector("li.list-group-item.border-0.rounded-3.p-1.ng-scope");
   public By RATING_START_LABEL = By.className("form-check-label");
 
   // Component card khách sạn
-  public By HOTEL_ITEM_START_LABEL = By.cssSelector(".d-block.d-flex.justify-content-between.align-items-center.gap-2.mt-1.mb-4");
+  public By HOTEL_ITEM_START_LABEL = By
+      .cssSelector(".d-block.d-flex.justify-content-between.align-items-center.gap-2.mt-1.mb-4");
 
   // Component thanh header page (thanh xanh)
   public By HEADER = By.xpath("/html/body/main/section/div[1]/div[1]/div[2]");
@@ -85,13 +86,13 @@ public class HotelListPage {
     String hotelNumberText = hotelNumber.getText().trim();
     if (hotelNumberText.isEmpty()) {
       throw new IllegalStateException("Không tìm thấy số lượng khách sạn trong header!");
-  }
-  
-  try {
+    }
+
+    try {
       return Integer.parseInt(hotelNumberText);
-  } catch (NumberFormatException e) {
+    } catch (NumberFormatException e) {
       throw new NumberFormatException("Dữ liệu số khách sạn không hợp lệ: " + hotelNumberText);
-  }
+    }
   }
 
   // Lập danh sách lấy số lượng khách sạn và số lượng sao trong khách sạn
@@ -106,9 +107,9 @@ public class HotelListPage {
       WebElement hotelItem = hotelItems.get(i);
       WebElement hotelDetail = hotelItem.findElement(HOTEL_ITEM_START_LABEL);
       List<WebElement> hotelRating = hotelDetail.findElements(By.tagName("svg"));
-      
+
       hotelMapValue.put(hotelItem, hotelRating.size());
-      System.out.println(getHotelName(hotelItem) + (i+1) + ":" + hotelRating.size());
+      System.out.println(getHotelName(hotelItem) + (i + 1) + ":" + hotelRating.size());
     }
     return hotelMapValue;
   }
@@ -126,17 +127,17 @@ public class HotelListPage {
     // Lấy tất cả các radio button trong nhóm "starRating"
     WebElement ratingCard = driver.findElement(RATING_LIST);
     WebElement ratingList = ratingCard.findElement(RATING_LIST);
-    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", ratingList);
+    js.executeScript("arguments[0].scrollIntoView({block: 'center'});", ratingList);
     List<WebElement> listItems = ratingList.findElements(RATING_SELECT);
     Thread.sleep(1000);
 
     // Kiểm tra danh sách có radio button không
     if (!listItems.isEmpty()) {
       Random rand = new Random();
-      int randomIndex = rand.nextInt(listItems.size()); 
+      int randomIndex = rand.nextInt(listItems.size());
 
-      WebElement selectedLi = listItems.get(randomIndex); 
-      WebElement radioButton = selectedLi.findElement(By.cssSelector("input[type='radio']")); 
+      WebElement selectedLi = listItems.get(randomIndex);
+      WebElement radioButton = selectedLi.findElement(By.cssSelector("input[type='radio']"));
       radioButton.click();
 
       WebElement startLabel = selectedLi.findElement(RATING_START_LABEL);
@@ -152,7 +153,6 @@ public class HotelListPage {
   }
 
   public void scrollToTop() {
-    JavascriptExecutor js = (JavascriptExecutor) driver;
     js.executeScript("window.scrollTo(0, 0);");
   }
 }

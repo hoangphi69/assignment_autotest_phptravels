@@ -1,0 +1,17 @@
+{
+  "TC01": {
+    "select-count": 1
+  },
+  "TC02": {
+    "select-count": 2
+  },
+  "TC03": {
+    "select-count": 3
+  },
+  "TC04": {
+    "select-count": 0
+  },
+  "TC05": {
+    "select-count": 1
+  }
+}

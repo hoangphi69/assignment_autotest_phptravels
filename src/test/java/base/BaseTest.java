@@ -6,7 +6,7 @@ import java.time.Duration;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -37,10 +37,9 @@ public class BaseTest {
     System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
 
     // Khởi tạo trình duyệt
-    WebDriverManager.chromedriver().setup();
-    driver = new ChromeDriver();
+    WebDriverManager.firefoxdriver().setup();
+    driver = new FirefoxDriver();
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-    // driver.get(BASE_URL);
     driver.get(BASE_URL);
     driver.manage().window().maximize();
 

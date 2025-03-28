@@ -182,7 +182,7 @@ public class FlightListPage {
   }
 
   // Lấy tất cả lựa chọn hãng bay trong filter
-  public List<WebElement> getFilterAirlines() {
+  public List<WebElement> getFilterAllAirlines() {
     WebElement filter = driver.findElement(FILTER_AIRLINES_LIST);
     js.executeScript("arguments[0].scrollIntoView({block: 'center'});", filter);
     delay(2000);
