@@ -4,10 +4,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -22,56 +20,34 @@ import base.Helpers;
 public class FlightListPage {
   private WebDriver driver;
   private WebDriverWait wait;
-  private String airlineName;
-
   private JavascriptExecutor js;
 
   // Component danh sách chuyến bay
   public By FLIGHT_LIST = By.id("flight-list");
-  public By FLIGHT_LIST_COUNT = By.xpath("/html/body/main/section/div[1]/div[1]/div[2]/h4/span/small/strong");
-  public By FLIGHT_ITEM = By.cssSelector("li.flight-item");
-  public By FLIGHT_CARD = By.xpath("/html/body/main/section/div[2]/div[2]/div[3]/div/ul/li[1]/form/div");
-  // Ticket detail
-  public By FLIGHT_CARD_DETAIL = By
-      .xpath("/html/body/main/section/div[2]/div[2]/div[3]/div/ul/li[1]/form/div/div/div/div[1]");
-  // Departure information
-  public By FLIGHT_CARD_DEPARTURE_PORT = By.xpath(
-      "/html/body/main/section/div[2]/div[2]/div[3]/div/ul/li[1]/form/div/div/div/div[1]/div/div[1]/div[1]/div[1]");
-  public By FLIGHT_CARD_DEPARTURE_AIRPORT = By.xpath(
-      "/html/body/main/section/div[2]/div[2]/div[3]/div/ul/li[1]/form/div/div/div/div[1]/div/div[1]/div[1]/div[2]");
-  public By FLIGHT_CARD_DEPARTIME_TIME = By.xpath(
-      "/html/body/main/section/div[2]/div[2]/div[3]/div/ul/li[2]/form/div/div/div/div[1]/div/div[1]/div[1]/div[3]/small");
-  // Arrival information
-  public By FLIGHT_CARD_ARRIVAL_PORT = By.xpath(
-      "/html/body/main/section/div[2]/div[2]/div[3]/div/ul/li[1]/form/div/div/div/div[1]/div/div[1]/div[3]/div/div[1]/span[1]");
-  public By FLIGHT_CARD_ARRIVAL_AIRPORT = By.xpath(
-      "/html/body/main/section/div[2]/div[2]/div[3]/div/ul/li[1]/form/div/div/div/div[1]/div/div[1]/div[3]/div/div[2]");
-  public By FLIGHT_CARD_ARRIVAL_TIME = By.xpath(
-      "/html/body/main/section/div[2]/div[2]/div[3]/div/ul/li[1]/form/div/div/div/div[1]/div/div[1]/div[3]/div/div[3]/small");
-  // Plane Airplane
-  public By PLANE_CARD = By
-      .xpath("/html/body/main/section/div[2]/div[2]/div[3]/div/ul/li[1]/form/div/div/div/div[1]/div/div[2]/div[1]");
-  public By PLANE_AIRLANE = By.xpath(
-      "/html/body/main/section/div[2]/div[2]/div[3]/div/ul/li[2]/form/div/div/div/div[1]/div/div[2]/div[1]/div/div[1]/div/span");
-  public By FLIGHT_LIST_NULL = By.xpath("/html/body/main/section/div[2]/div[2]/div[3]/div/div");
 
-  public By FLIGHT_ITEM_SEGMENTS = By.cssSelector("[ng-repeat='segment in flight.segments[0]']");
+  public By FLIGHT_LIST_COUNT = By.xpath("/html/body/main/section/div[1]/div[1]/div[2]/h4/span/small/strong");
+
+  public By FLIGHT_ITEM = By.cssSelector("li.flight-item");
 
   public By FLIGHT_ITEM_PRICE = By.cssSelector("span.price.ng-binding");
 
   public By FLIGHT_ITEM_TIME = By.cssSelector("small.ls--1");
 
+  public By FLIGHT_ITEM_SEGMENTS = By.cssSelector("[ng-repeat='segment in flight.segments[0]']");
+
+  public By FLIGHT_ITEM_SEGMENTS_AIRLINES = By.cssSelector("span");
+
   // Component filter chặng bay
   public By FILTER_SEGMENTS = By.xpath("/html/body/main/section/div[2]/div[2]/div[2]/div/div[1]");
 
   // Component filter hãng bay
-  public By AIRLINES_LIST = By.xpath("/html/body/main/section/div[2]/div[2]/div[2]/div/div[3]/div[2]");
-  public By AIRLINE_ITEMS = By.cssSelector(
-      "html body#fadein main section.ng-scope div.container.mb-5.mt-2 div.row.g-3 div.col-md-3.order-md-1.order-2 div.flights_filter div.card.mt-3.border.rounded-4 div.card-body.p-4 ul.list.remove_duplication.checkbox-group.oneway--checkbox-filter ul.list.remove_duplication.checkbox-group.oneway--checkbox-filter li.ng-scope");
+  public By FILTER_AIRLINES_LIST = By.xpath("/html/body/main/section/div[2]/div[2]/div[2]/div/div[3]/div[2]");
 
-  public By AIRLINES_ITEM(String airlineName) {
-    return By.xpath(String.format("//*[@id='%s']", airlineName));
-  }
+  public By FILTER_AIRLINES_ITEM = By.cssSelector("[ng-repeat='(airlines, data) in airlineCounts']");
+
+  public By FILTER_AIRLINES_ITEM_CHECKBOX = By.xpath("./div/input");
+
+  public By FILTER_AIRLINES_ITEM_LABEL = By.xpath("./div/label");
 
   // Component filter giá vé
   public By FILTER_PRICE = By.xpath("/html/body/main/section/div[2]/div[2]/div[2]/div/div[2]");
@@ -135,37 +111,22 @@ public class FlightListPage {
     return segments;
   }
 
+  // Lấy các hãng bay trong chuyến bay
+  public List<String> getFlightAirlines(WebElement flight) {
+    return getFlightSegments(flight)
+        .stream()
+        .map(segment -> segment
+            .findElement(FLIGHT_ITEM_SEGMENTS_AIRLINES)
+            .getText()
+            .split("\n")[0]
+            .trim())
+        .toList();
+  }
+
   // Lấy giá vé chuyến bay
   public int getFlightPrice(WebElement flight) {
     WebElement price = flight.findElement(FLIGHT_ITEM_PRICE);
     return (int) Math.ceil(Double.parseDouble(price.getText()));
-  }
-
-  // Lấy hãng bay chuyến bay
-  public List<WebElement> getFlightAirline() {
-    if (driver.findElements(FLIGHT_CARD).isEmpty()) {
-      System.out.println("Không tìm thấy FLIGHT_CARD.");
-      return Collections.emptyList();
-    }
-    WebElement flight_ticket = driver.findElement(FLIGHT_CARD);
-    if (flight_ticket.findElements(FLIGHT_CARD_DETAIL).isEmpty()) {
-      System.out.println("Không tìm thấy FLIGHT_CARD_DETAIL.");
-      return Collections.emptyList();
-    }
-    WebElement flight_detail = flight_ticket.findElement(FLIGHT_CARD_DETAIL);
-    if (flight_detail.findElements(PLANE_CARD).isEmpty()) {
-      System.out.println("Không tìm thấy PLANE_CARD.");
-      return Collections.emptyList();
-    }
-    WebElement plane_card = flight_detail.findElement(PLANE_CARD);
-    List<WebElement> flights = plane_card.findElements(PLANE_AIRLANE);
-
-    if (flights.isEmpty()) {
-      System.out.println("Không tìm thấy chuyến bay nào.");
-      return Collections.emptyList(); // Trả về danh sách rỗng để tránh lỗi
-    }
-
-    return flights;
   }
 
   // Lấy thời gian cất cánh chuyến bay
@@ -220,86 +181,35 @@ public class FlightListPage {
     filter.findElement(By.xpath(".//*[contains(text(), '%s')]".formatted(type))).click();
   }
 
-  // Lấy element thành dạng text
-  public String getElementToText(By element) {
-    WebElement field = wait.until(ExpectedConditions.visibilityOfElementLocated(element));
-    return field.getText();
+  // Lấy tất cả lựa chọn hãng bay trong filter
+  public List<WebElement> getFilterAirlines() {
+    WebElement filter = driver.findElement(FILTER_AIRLINES_LIST);
+    js.executeScript("arguments[0].scrollIntoView({block: 'center'});", filter);
+    delay(2000);
+    List<WebElement> airlines = filter.findElements(FILTER_AIRLINES_ITEM);
+    return airlines;
   }
 
-  // Chọn hãng bay
-  public String selectAirline() throws InterruptedException {
-    WebElement airline_List = driver.findElement(AIRLINES_LIST);
-    List<WebElement> checkbox = airline_List.findElements(By.cssSelector("input.airline-checkbox"));
-    List<String> checkboxID = checkbox.stream()
-        .map(e -> e.getDomProperty("id"))
-        .collect(Collectors.toList());
-
-    Random random = new Random();
-    String randomID;
-    WebElement randomCheckbox;
-
-    do {
-      randomID = checkboxID.get(random.nextInt(checkboxID.size()));
-      randomCheckbox = driver.findElement(By.id(randomID));
-    } while (randomCheckbox.isSelected()); // Chỉ chọn checkbox chưa được chọn
-
-    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", randomCheckbox);
-    Thread.sleep(2000);
-    randomCheckbox.click();
-
-    WebElement label = driver.findElement(By.xpath("//label[@for='" + randomID + "']"));
-    airlineName = label.getText().replaceAll("\\(\\d+\\)", "").trim(); // Gán vào biến toàn cục
-
-    System.out.println("Hãng bay đã chọn: " + airlineName);
-
-    return airlineName;
-  }
-
-  // Bỏ chọn tất cả hãng bay
-  public void deselectAllAirline() {
-    WebElement airline_List = driver.findElement(AIRLINES_LIST);
-    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'end'});", airline_List);
-    List<WebElement> checkboxes = airline_List.findElements(By.cssSelector("input.airline-checkbox"));
-
-    // Duyệt qua từng checkbox và click nếu nó chưa được chọn
-    for (WebElement checkbox : checkboxes) {
-      ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", checkbox);
-      checkbox.click();
+  // Thực hiện filter bỏ chọn các hãng bay
+  public void performFilterDeselectAirlines(List<WebElement> elements) {
+    for (WebElement airlines : elements) {
+      WebElement checkbox = airlines.findElement(FILTER_AIRLINES_ITEM_CHECKBOX);
+      if (checkbox.isSelected())
+        checkbox.click();
     }
   }
 
-  public void getNullTicket() {
-    WebElement nullTicket = driver.findElement(FLIGHT_LIST_NULL);
-    nullTicket.getText();
-  }
-
-  public void scrollToTop() {
-    JavascriptExecutor js = (JavascriptExecutor) driver;
-    js.executeScript("window.scrollTo(0, 0);");
-  }
-
-  // Chọn vé bay
-  public String performAirlineTicket() {
-    WebElement flight_ticket = driver.findElement(FLIGHT_CARD);
-    WebElement flight_detail = flight_ticket.findElement(FLIGHT_CARD_DETAIL);
-
-    String departureFrom = flight_detail.findElement(FLIGHT_CARD_DEPARTURE_PORT).getText();
-    System.out.println("Departure From: " + departureFrom);
-
-    String departureTime = flight_detail.findElement(FLIGHT_CARD_DEPARTIME_TIME).getText();
-    System.out.println("Departure Time: " + departureTime);
-
-    String arrivalFrom = flight_detail.findElement(FLIGHT_CARD_ARRIVAL_PORT).getText();
-    System.out.println("Arrival From: " + arrivalFrom);
-
-    String arrivalTime = flight_detail.findElement(FLIGHT_CARD_ARRIVAL_TIME).getText();
-    System.out.println("Arrival Time: " + arrivalTime);
-
-    WebElement plane_card = flight_detail.findElement(PLANE_CARD);
-    String airline = plane_card.findElement(PLANE_AIRLANE).getText().split("\n")[0].trim();
-    System.out.println("Airline: " + airline);
-
-    return airline;
+  // Thực hiện filter chọn các hãng bay
+  public List<String> performFilterSelectAirlines(List<WebElement> elements) {
+    List<String> selectedAirlines = new ArrayList<>();
+    for (WebElement airlines : elements) {
+      WebElement checkbox = airlines.findElement(FILTER_AIRLINES_ITEM_CHECKBOX);
+      if (!checkbox.isSelected())
+        checkbox.click();
+      WebElement label = airlines.findElement(FILTER_AIRLINES_ITEM_LABEL);
+      selectedAirlines.add(label.getText().split("\\) ")[1]);
+    }
+    return selectedAirlines;
   }
 
   // Lấy giá vé min từ filter
