@@ -39,7 +39,7 @@ public class F17_FilterRating extends BaseTest {
   @Test
   public void TC_CompareRating() throws InterruptedException {
     int expected = page.selectRandomStarRating();
-    Map<WebElement, Integer> hotelValue = page.getHotelsWithStartsList();
+    Map<WebElement, Integer> hotelValue = page.getHotelsWithStarsList();
     for (Map.Entry<WebElement, Integer> entry : hotelValue.entrySet()) {
       int actual = entry.getValue();
       Assert.assertEquals(actual, expected, "Số sao giữa filter và số sao của khách sạn không bằng nhau");
@@ -50,9 +50,9 @@ public class F17_FilterRating extends BaseTest {
   @Test
   public void TC_CompareHotelNumber() throws InterruptedException {
     page.selectRandomStarRating();
-    int expected = page.getHotelNumber();
+    int expected = page.getHotelCount();
 
-    Map<WebElement, Integer> hotelMap = page.getHotelsWithStartsList(); // Lấy danh sách khách sạn thực tế
+    Map<WebElement, Integer> hotelMap = page.getHotelsWithStarsList(); // Lấy danh sách khách sạn thực tế
     int actualHotelCount = hotelMap.size(); // Đếm số khách sạn lấy từ danh sách
 
     System.out.println("Số khách sạn từ header (expected): " + expected);

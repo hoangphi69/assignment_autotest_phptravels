@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -23,25 +24,44 @@ public class HotelListPage {
 
   public By HOTEL_ITEM = By.cssSelector("li.card--item");
 
-  public By HOTEL_NAME = By.cssSelector("h5");
+  public By HOTEL_ITEM_NAME = By.cssSelector("h5");
+
+  public By HOTEL_ITEM_PRICE = By.cssSelector("[data-price]");
+
+  public By HOTEL_ITEM_START_LABEL = By
+      .cssSelector(".d-block.d-flex.justify-content-between.align-items-center.gap-2.mt-1.mb-4");
 
   // Component tìm kiếm danh sách theo tên
   public By SEARCH_NAME_INPUT = By.xpath("/html/body/main/section/div[2]/div/div[1]/div/div[1]/div[2]/div/input");
 
   // Component filter rating
   public By RATING = By.xpath("/html/body/main/section/div[2]/div/div[1]/div/div[2]/div[1]/div[1]");
+
   public By RATING_LIST = By.xpath("/html/body/main/section/div[2]/div/div[1]/div/div[2]/div[1]/div[2]/div/ul");
+
   public By RATING_ALLSTAR = By
       .xpath("/html/body/main/section/div[2]/div/div[1]/div/div[2]/div[1]/div[2]/div/ul/li[1]");
+
   public By RATING_SELECT = By.cssSelector("li.list-group-item.border-0.rounded-3.p-1.ng-scope");
+
   public By RATING_START_LABEL = By.className("form-check-label");
 
-  // Component card khách sạn
-  public By HOTEL_ITEM_START_LABEL = By
-      .cssSelector(".d-block.d-flex.justify-content-between.align-items-center.gap-2.mt-1.mb-4");
+  // Component filter giá thuê khách sạn
+  public By FILTER_PRICE = By.id("priceRange");
+
+  public By FILTER_PRICE_SLIDER = By.cssSelector("span.irs-bar");
+
+  public By FILTER_PRICE_MIN_HANDLE = By.cssSelector("span.irs-handle.from");
+
+  public By FILTER_PRICE_MIN = By.cssSelector("span.irs-from");
+
+  public By FILTER_PRICE_MAX_HANDLE = By.cssSelector("span.irs-handle.to");
+
+  public By FILTER_PRICE_MAX = By.cssSelector("span.irs-to");
 
   // Component thanh header page (thanh xanh)
   public By HEADER = By.xpath("/html/body/main/section/div[1]/div[1]/div[2]");
+
   public By HEADER_HOTEL_NUMBER = By.xpath("/html/body/main/section/div[1]/div[1]/div[2]/h4/span/small/strong");
 
   // Constructor
@@ -67,20 +87,8 @@ public class HotelListPage {
     return hotels;
   }
 
-  // Lấy tên khách sạn
-  public String getHotelName(WebElement hotel) {
-    return hotel.findElement(HOTEL_NAME).getText();
-  }
-
-  // Thực hiện tìm kiếm khách sạn theo tên
-  public void performSearchHotel(String name) {
-    WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(SEARCH_NAME_INPUT));
-    input.clear();
-    input.sendKeys(name);
-  }
-
   // Lấy số lượng khách sạn trên page
-  public int getHotelNumber() {
+  public int getHotelCount() {
     WebElement header = driver.findElement(HEADER);
     WebElement hotelNumber = header.findElement(HEADER_HOTEL_NUMBER);
     String hotelNumberText = hotelNumber.getText().trim();
@@ -95,8 +103,25 @@ public class HotelListPage {
     }
   }
 
+  // Lấy tên khách sạn
+  public String getHotelName(WebElement hotel) {
+    return hotel.findElement(HOTEL_ITEM_NAME).getText();
+  }
+
+  // Lấy giá thuê khách sạn
+  public double getHotelPrice(WebElement hotel) {
+    return Double.parseDouble(hotel.findElement(HOTEL_ITEM_PRICE).getText().replaceAll("[^\\d.]", ""));
+  }
+
+  // Thực hiện tìm kiếm khách sạn theo tên
+  public void performSearchHotel(String name) {
+    WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(SEARCH_NAME_INPUT));
+    input.clear();
+    input.sendKeys(name);
+  }
+
   // Lập danh sách lấy số lượng khách sạn và số lượng sao trong khách sạn
-  public Map<WebElement, Integer> getHotelsWithStartsList() {
+  public Map<WebElement, Integer> getHotelsWithStarsList() {
     WebElement hotelList = driver.findElement(HOTEL_LIST);
     List<WebElement> hotelItems = hotelList.findElements(HOTEL_ITEM);
 
@@ -152,6 +177,54 @@ public class HotelListPage {
     }
   }
 
+  // Lấy giá vé min từ filter
+  public int getFilterPriceMin() {
+    WebElement filter = wait.until(ExpectedConditions.visibilityOfElementLocated(FILTER_PRICE));
+    WebElement min = filter.findElement(FILTER_PRICE_MIN);
+    int value = Integer.parseInt(min.getText().replaceAll("[^\\d.]", ""));
+    return value;
+  }
+
+  // Lấy giá vé max từ filter
+  public int getFilterPriceMax() {
+    WebElement filter = wait.until(ExpectedConditions.visibilityOfElementLocated(FILTER_PRICE));
+    WebElement max = filter.findElement(FILTER_PRICE_MAX);
+    int value = Integer.parseInt(max.getText().replaceAll("[^\\d.]", ""));
+    return value;
+  }
+
+  // Thực hiện filter danh sách theo giá vé
+  public void performFilterByPrice(int minPercent, int maxPercent) {
+    WebElement filter = wait.until(ExpectedConditions.visibilityOfElementLocated(FILTER_PRICE));
+
+    WebElement track = filter.findElement(FILTER_PRICE_SLIDER);
+    WebElement minHandle = filter.findElement(FILTER_PRICE_MIN_HANDLE);
+    WebElement maxHandle = filter.findElement(FILTER_PRICE_MAX_HANDLE);
+
+    // Lấy kích cỡ các element
+    int sliderWidth = track.getSize().getWidth();
+    int handleWidth = minHandle.getSize().getWidth() / 2;
+
+    // Lấy vị trí hiện tại các element
+    int trackStartX = track.getLocation().getX();
+    int currentMinX = minHandle.getLocation().getX() + handleWidth;
+    int currentMaxX = maxHandle.getLocation().getX() + handleWidth;
+
+    // Vị trí cấn di chuyến đến
+    int targetMinX = trackStartX + (int) (sliderWidth * (minPercent / 100.0));
+    int targetMaxX = trackStartX + (int) (sliderWidth * (maxPercent / 100.0));
+
+    // Khoảng cách cần di chuyển
+    int minMoveBy = targetMinX - currentMinX;
+    int maxMoveBy = targetMaxX - currentMaxX;
+
+    // Di chuyển thanh handle
+    Actions actions = new Actions(driver);
+    actions.clickAndHold(minHandle).moveByOffset(minMoveBy, 0).release().perform();
+    actions.clickAndHold(maxHandle).moveByOffset(maxMoveBy, 0).release().perform();
+  }
+
+  // Cuộn trang lên trên đầu
   public void scrollToTop() {
     js.executeScript("window.scrollTo(0, 0);");
   }
