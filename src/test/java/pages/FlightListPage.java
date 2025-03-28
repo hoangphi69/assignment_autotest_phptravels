@@ -141,6 +141,33 @@ public class FlightListPage {
     return (int) Math.ceil(Double.parseDouble(price.getText()));
   }
 
+  // Lấy hãng bay chuyến bay
+  public List<WebElement> getFlightAirline() {
+    if (driver.findElements(FLIGHT_CARD).isEmpty()) {
+      System.out.println("Không tìm thấy FLIGHT_CARD.");
+      return Collections.emptyList();
+    }
+    WebElement flight_ticket = driver.findElement(FLIGHT_CARD);
+    if (flight_ticket.findElements(FLIGHT_CARD_DETAIL).isEmpty()) {
+      System.out.println("Không tìm thấy FLIGHT_CARD_DETAIL.");
+      return Collections.emptyList();
+    }
+    WebElement flight_detail = flight_ticket.findElement(FLIGHT_CARD_DETAIL);
+    if (flight_detail.findElements(PLANE_CARD).isEmpty()) {
+      System.out.println("Không tìm thấy PLANE_CARD.");
+      return Collections.emptyList();
+    }
+    WebElement plane_card = flight_detail.findElement(PLANE_CARD);
+    List<WebElement> flights = plane_card.findElements(PLANE_AIRLANE);
+
+    if (flights.isEmpty()) {
+      System.out.println("Không tìm thấy chuyến bay nào.");
+      return Collections.emptyList(); // Trả về danh sách rỗng để tránh lỗi
+    }
+
+    return flights;
+  }
+
   // Lấy thời gian cất cánh chuyến bay
   public String getFlightDeparture(WebElement flight) {
     WebElement time = flight.findElements(FLIGHT_ITEM_TIME).get(0);
@@ -199,40 +226,12 @@ public class FlightListPage {
     return field.getText();
   }
 
-  // các chuyến bay
-  public List<WebElement> getFlightAirline() {
-    if (driver.findElements(FLIGHT_CARD).isEmpty()) {
-      System.out.println("Không tìm thấy FLIGHT_CARD.");
-      return Collections.emptyList();
-    }
-    WebElement flight_ticket = driver.findElement(FLIGHT_CARD);
-    if (flight_ticket.findElements(FLIGHT_CARD_DETAIL).isEmpty()) {
-      System.out.println("Không tìm thấy FLIGHT_CARD_DETAIL.");
-      return Collections.emptyList();
-    }
-    WebElement flight_detail = flight_ticket.findElement(FLIGHT_CARD_DETAIL);
-    if (flight_detail.findElements(PLANE_CARD).isEmpty()) {
-      System.out.println("Không tìm thấy PLANE_CARD.");
-      return Collections.emptyList();
-    }
-    WebElement plane_card = flight_detail.findElement(PLANE_CARD);
-    List<WebElement> flights = plane_card.findElements(PLANE_AIRLANE);
-
-    if (flights.isEmpty()) {
-      System.out.println("Không tìm thấy chuyến bay nào.");
-      return Collections.emptyList(); // Trả về danh sách rỗng để tránh lỗi
-    }
-
-    return flights;
-  }
-
   // Chọn hãng bay
   public String selectAirline() throws InterruptedException {
-    System.out.println(">>-----select");
     WebElement airline_List = driver.findElement(AIRLINES_LIST);
     List<WebElement> checkbox = airline_List.findElements(By.cssSelector("input.airline-checkbox"));
     List<String> checkboxID = checkbox.stream()
-        .map(e -> e.getAttribute("id"))
+        .map(e -> e.getDomProperty("id"))
         .collect(Collectors.toList());
 
     Random random = new Random();
@@ -256,36 +255,8 @@ public class FlightListPage {
     return airlineName;
   }
 
-  // // So sánh airline từ filter Airline và ticket
-  // public boolean compareAirlineSelection() {
-  // System.out.println(">>-----compare");
-  // // Chạy performAirline để chọn hãng bay
-  // try {
-  // // Chạy performAirlineTicket để lấy airline đã chọn
-  // WebElement flight_ticket = driver.findElement(FLIGHT_CARD);
-  // WebElement flight_detail = flight_ticket.findElement(FLIGHT_CARD_DETAIL);
-  // WebElement plane_card = flight_detail.findElement(PLANE_CARD);
-  // String selectedAirline =
-  // plane_card.findElement(PLANE_AIRLANE).getText().split("\n")[0].trim();
-  // System.out.println(" Airline from Ticket: " + selectedAirline);
-  // System.out.println(" Airline Selected: " + airlineName);
-  // // So sánh kết quả
-  // if (airlineName.equals(selectedAirline)) {
-  // System.out.println("Hãng bay hợp lệ");
-  // return true;
-  // } else {
-  // System.out.println("Hãng bay không hợp lệ");
-  // return false;
-  // }
-  // } catch (Exception e) {
-  // System.out.println("Error in airline selection: " + e.getMessage());
-  // return false;
-  // }
-  // }
-
-  // Bỏ chọn tất cã hãng bay
+  // Bỏ chọn tất cả hãng bay
   public void deselectAllAirline() {
-    System.out.println(">>-----deselect");
     WebElement airline_List = driver.findElement(AIRLINES_LIST);
     ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'end'});", airline_List);
     List<WebElement> checkboxes = airline_List.findElements(By.cssSelector("input.airline-checkbox"));
